@@ -1,2 +1,2 @@
 # partMainJob
-Beberapa potongan modul
+Beberapa potongan modul pendukung pekerjaan
