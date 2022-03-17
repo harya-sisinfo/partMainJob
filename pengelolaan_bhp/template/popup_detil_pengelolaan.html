@@ -1,0 +1,61 @@
+<!-- patTemplate:tmpl name="content" -->
+<h2>Register Transaksi Harian</h2>
+
+<table width="100%" class="table-edit">
+   <tr>
+      <th>Nomor Transaksi</th>
+      <td>{TRANS_NOMOR}</td>
+   </tr>
+   <tr>
+      <th>Tanggal</th>
+      <td>{TRANS_TANGGAL}</td>
+   </tr>   
+   <tr>
+      <th>Nama</th>
+      <td>{TRANS_NAMA}</td>
+   </tr>
+   <tr>
+      <th>Diskripsi</th>
+      <td>{TRANS_KETERANGAN}</td>
+   </tr>
+	<tr>
+      <th>Unit</th>
+      <td>{NAMA_UNIT}</td>
+   </tr>
+</table>
+<br>
+<H3>List Item</H3>
+<table class="table-common" width="100%">
+   <tr>
+      <th width="5px"><!-- patTemplate:gtfwgetconfig config="language" name="no" / --></th>
+      <th>Kode Barang</th>
+      <th>Nama</th>
+      <th>Diskripsi</th>
+      <!-- <th>Amount</th> -->
+		<th>Jumlah</th>
+		<!-- <th>Sub Total (Rp)</th> -->
+   </tr>
+   <!-- patTemplate:tmpl name="data" type="condition" conditionvar="DATA_EMPTY" -->
+      <!-- patTemplate:sub condition="YES" -->
+   <tr><td colspan="5" align="center"><em>-- <!-- patTemplate:gtfwgetconfig config="language" name="data_kosong" / --> --</em></td></tr>
+      <!-- /patTemplate:sub -->
+      <!-- patTemplate:sub condition="NO" -->
+         <!-- patTemplate:tmpl name="data_item" -->
+   <tr class="{CLASS_NAME}">
+      <td align="center">{NOMOR}</td>
+      <td align="center">{BARANGKODE}</td>
+      <td>{BARANGNAMA}</td>
+      <td>{BARANGDISKRIPSI}</td>
+		<!-- <td align="right">{LELANGBIAYA}</td> -->
+		<td align="right">{JUMLAH}</td>
+      <!-- <td align="right">{TOTAL}</td> -->
+   </tr>
+         <!-- /patTemplate:tmpl -->
+	<!-- <tr>
+   <td colspan="6" align="right">Total (Rp)</td>
+   <td align="right">{TOTAL_BIAYA}</td>
+   </tr> -->
+      <!-- /patTemplate:sub -->
+   <!-- /patTemplate:tmpl -->
+</table>
+<!-- /patTemplate:tmpl -->

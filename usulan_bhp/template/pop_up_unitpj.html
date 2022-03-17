@@ -1,0 +1,66 @@
+<!-- patTemplate:tmpl name="content" -->
+<h2>Daftar Unit</h2>
+<br />
+<form method="POST" action="{URL_SEARCH}" class="dataquest xhr_simple_form dest_popup-subcontent" id="filterboxpopup">
+   <table>
+      <tr>
+         <th colspan="2"><h3><strong>Pencarian</strong></h3></th>
+      </tr>
+         <tr style="display:none">
+            <th width="30%"><!-- patTemplate:gtfwgetconfig config="language" name="kode_unit" / --> / <!-- patTemplate:gtfwgetconfig config="language" name="sub_unit" / --></th>
+            <td><input type="text" name="kode" value="{KODE}" />
+            </td>
+         </tr>
+         <tr>
+            <th><!-- patTemplate:gtfwgetconfig config="language" name="nama_unit" / --> / <!-- patTemplate:gtfwgetconfig config="language" name="sub_unit" / --></th>
+            <td><input type="text" name="nama" value="{NAMA}" size="40" />
+         </tr>
+      <tr>
+         <th>&nbsp;</th>
+         <td>
+            <input type="submit" name="btncari" value=" Tampilkan &raquo;" class="buttonSubmit"/>
+         </td>
+      </tr>
+   </table>
+</form>
+<br />
+
+   <div class="pageBar">
+   <!-- patTemplate:gtfwrendermodule module="paging" submodule="paging" action="view" name="paging_top"  / -->
+   </div>
+   <table class="table-common" width="100%">
+      <tr>
+         <th width="5"><!-- patTemplate:gtfwgetconfig config="language" name="no" / --></th>
+		   <th><!-- patTemplate:gtfwgetconfig config="language" name="kode" / --></th>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="unit" / -->/ <!-- patTemplate:gtfwgetconfig config="language" name="sub_unit" / --></th>
+         <th width="31"><!-- patTemplate:gtfwgetconfig config="language" name="aksi" / --></th>
+      </tr>
+      <!-- patTemplate:tmpl name="data_unitkerja" type="condition" conditionvar="UNITKERJA_EMPTY" -->
+         <!-- patTemplate:sub condition="YES" -->
+         <tr><td colspan="4" align="center"><em>-- <!-- patTemplate:gtfwgetconfig config="language" name="data_kosong" / --> --</em></td></tr>
+         <!-- /patTemplate:sub -->
+         <!-- patTemplate:sub condition="NO" -->
+            <!-- patTemplate:tmpl name="data_unitkerja_item" -->
+            <tr class="{UNITKERJA_CLASS_NAME}">
+               <td align="center">{UNITKERJA_NUMBER}</td>
+               <td>{UNITKERJA_KODEUNIT}</td>
+               <td>{UNITKERJA_UNIT}</td>
+               <td class="links" align="center">
+                  <a title="Pilih"><img src="images/button-check.gif" alt="pilih" onclick="javascript: select_this('{UNITKERJA_ID}', '{UNITKERJA_UNIT}')"/></a>
+               </td>
+            </tr>
+            <!-- /patTemplate:tmpl -->
+         <!-- /patTemplate:sub -->
+      <!-- /patTemplate:tmpl -->
+   </table>
+   <script language='javascript'>
+   function select_this(id, name)
+   {
+     
+      document.getElementById('pop_up_unit_pj_id').value = id;
+      document.getElementById('pop_up_unit_pj_name').value = name;
+      focus();
+      popupClose();
+   }
+   </script>
+<!-- /patTemplate:tmpl -->

@@ -1,0 +1,530 @@
+<!-- patTemplate:tmpl name="content" -->
+<h1>Usulan Barang Habis Pakai (BHP)</h1>
+<br/>
+<!-- patTemplate:tmpl name="warning_box" visibility="hidden" -->
+<div class="{CLASS_PESAN}">
+   {ISI_PESAN}
+</div>
+<br/>
+<!-- /patTemplate:tmpl -->
+<div class="pageBar">
+   <div class="toolbar">
+      <a class="xhr dest_subcontent-element" href="{URL_BACK}" title="Lihat Daftar Usulan" ><img src="images/button-bac.gif" alt="">Lihat Daftar Usulan</a>
+   </div>
+</div>
+<form method="POST" action="{URL_ACTION}" id="frmInput" name="frmInput" class="xhr_form std_form" enctype='multipart/form-data'>
+   <table class="table-edit" width="100%"><tbody id="formInputContainer">
+      <tr class="subhead">
+         <th colspan="2">Tambah Usulan</th>
+      </tr>
+      <tr>
+         <td><!-- patTemplate:gtfwgetconfig config="language" name="tanggal_usulan" / --> *</td>
+         <td>
+            <span id='tglUsulan1'>
+               <input type='text' name='tglUsulan1Display' id='tglUsulan1Display' value='{TGLUSULAN1DISPLAY}' readonly />
+               <input type='hidden' name='usulanBrgTglUsulan' id='tglUsulan1Input' value='{USULANBRGTGLUSULAN}'/>
+               <input type='button' value='...' id='tglUsulan1Button' title='Klik untuk memilih tanggal!'/>
+            </span>
+         </td>
+      </tr>
+      <!-- patTemplate:comment -->
+      <tr>
+			<td>Periode *</td>
+         <td>
+				<!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" action="view" name="periode"  / -->  
+         </td>
+      </tr>
+      <!-- /patTemplate:comment -->
+      <tr>
+         <td><!-- patTemplate:gtfwgetconfig config="language" name="no_usulan" / --> *</td>
+         <td>
+            <input type="text" name="usulanBrgNoUsulan" value="{USULANBRGNOUSULAN}" size="30"/>
+            <input type='text' style='display: none' class='gvFloat' id='fakeInput'>
+         </td>
+      </tr>
+      <!-- patTemplate:comment -->
+		<tr>
+			<td><!-- patTemplate:gtfwgetconfig config="language" name="rencana_pengadaan" / --> *</td>
+         <td>
+				<input type='text' name='usulanBrgMAKNama' value='{USULANBRGMAKNAMA}' id='POP_UP_MAK_NAMA' size="60" readonly/>
+            <input type='button' value='...' onclick='javascript: showPopup("{URL_RENCANA_PENGADAAN}", "", 900, 550);'/>
+            <input type='text' name='usulanBrgMAK' value='{USULANBRGMAK}' id='POP_UP_MAK_KODE' readonly/>
+            <input type='hidden' name='usulanBrgMAKNominal' value='{USULANBRGMAKNOMINAL}' id='POP_UP_MAK_NOMINAL'/>
+            <input type='hidden' name='usulanBrgMAKId' onkeyup="setRencana(this.value)" value='{USULANBRGMAKID}' id='POP_UP_MAK_THANGGARID'/>
+            
+         </td>
+      </tr>
+      <tr>
+         <td colspan="2">
+         	Detil Pengadaan
+         	<div id="rencana_pengadaan_barang">
+				<div style="height:200px;overflow:auto;">
+         		<table width="100%" class="table-common">
+               	<thead>
+               	   <tr>
+               	      <th>Kode</th>
+               	      <th>Nama</th>
+               	      <th>Nominal Usulan (Rp.)</th>
+               	      <th>Nominal Setuju (Rp.)</th>
+               	      <th>Satuan Usulan</th>
+               	      <th>Satuan Setuju</th>
+               	      <th>Jumlah Usulan (Rp.)</th>
+               	      <th>Jumlah Setuju (Rp.)</th>
+								<th>Status Approval</th>
+								<th>Keterangan</th>
+               	   </tr>
+               	</thead>
+               	<tbody>
+                  	<tr>
+                  	  <td colspan="10" align="center">
+                  	  	<em>-- <!-- patTemplate:gtfwgetconfig config="language" name="data_kosong" / --> --</em>
+                  	  </td>
+                  	</tr>
+               	</tbody>
+             	</table>
+       		</div>
+         </td>
+      </tr>
+      <!-- /patTemplate:comment -->
+      <tr>
+         <td>
+         	<!-- patTemplate:gtfwgetconfig config="language" name="unit" / --> *
+         </td>
+         <td>
+				<input type='hidden' name='usulanBrgUnitId' value='{USULANBRGUNITID}' id='pop_up_unit_pj_id' size="40"/>
+            <input type='text' name='usulanBrgUnitNama' value='{USULANBRGUNITNAMA}' id='pop_up_unit_pj_name' size="40" readonly>
+            <input type='button' value='...' onclick='javascript: showPopup("{URL_POPUP_UNIT}", "", 600, 500);'/> 
+         </td>
+      </tr>
+		<tr>
+         <td>
+            <!-- patTemplate:gtfwgetconfig config="language" name="detail_barang" / --> *
+         </td>
+         <td>
+            <input type="button" value=" Tambah " id="detButtonSubmit" onClick="javascript: showPopup('{URL_POPUP_DHS_BARANG_JASA}', 'Tambah Barang', 800, 500);" />
+            <!--
+            <input type="button" value=" Tambah " id="detButtonSubmit" onClick="javascript: document.getElementById('detBarangContainer').addItem('','','','','','','',0,0)" />
+            -->
+         </td>
+      </tr>
+      <tr>
+         <td colspan="2">
+            <table class="table-common" align="center" width="100%">
+               <thead id="detBarangContainer">
+                  <tr>
+<!--                      <th align="center" >Akun Belanja</th> -->
+<!--                      <th align="center" >Jenis Pengadaan</th> -->
+					<th align="center" >No</th>
+                     <th align="center" >Kode Barang</th>
+                     <th align="center"><!-- patTemplate:gtfwgetconfig config="language" name="nama_barang" / --></th>
+                     <th align="center"><!-- patTemplate:gtfwgetconfig config="language" name="spesifikasi" / --></th>
+                     <th align="center">File</th>
+                     <th align="center">Tgl Pakai</th>
+                     <th align="center"><!-- patTemplate:gtfwgetconfig config="language" name="jumlah_usulan" / --></th>
+                     <th align="center">Satuan</th>
+                     <th align="center">Harga Satuan (Rp)</th>
+                     <th align="center">Sub Total (Rp)</th>
+                     <th align="center"><!-- patTemplate:gtfwgetconfig config="language" name="aksi" / --></th>
+                  </tr>
+               </thead>
+               <tbody id="rincianKosong">
+                  <tr>
+                     <td colspan="11" align='center'>
+                        Belum ada data, klik [Tambah] untuk memilih!
+                     </td>
+                  </tr>
+               </tbody>
+               <tbody>
+                  <tr style="font-weight:bold;text-align:right;">
+                     <td colspan="9">Total (Rp)</td>
+                     <td id="total">0</td>
+                     <td></td>
+                  </tr>
+               </tbody>
+            </table>
+         </td>
+      </tr>
+      <tr class="buttons">
+         <th>&nbsp;</th>
+         <td>
+            <input type="submit" name="btnsimpan" id="btnSimpan" value=" Simpan " class="buttonSubmit"/>
+            <a class="xhr dest_subcontent-element" href="{URL_BACK}" >
+            	<input  type="button"  name="btnbalik" value=" Batal " class="buttonSubmit"/>
+            </a>
+         </td>
+      </tr>
+   </tbody>
+ </table>
+</form>
+
+<br/>
+<div class="petunjuk-area">
+   <h4><!-- patTemplate:gtfwgetconfig config="language" name="petunjuk" / -->:</h4>
+   <ul>
+      <li><!-- patTemplate:gtfwgetconfig config="language" name="info_wajib_diisi" / -->. </li>
+   </ul>
+</div>
+
+<script language="javascript" type="text/javascript">
+// loadm data deto; pengadaan
+// if (document.getElementById('POP_UP_MAK_THANGGARID').value){      
+//    	GtfwAjax.replaceContentWithUrl('rencana_pengadaan_barang', '<!-- patTemplate:gtfwgeturl module="mr_usulan_barang" sub="tableRencanaPengeluaran" action="view" type="html" htmlentities="no" / -->&ascomponent=1&dataId='+document.getElementById('POP_UP_MAK_THANGGARID').value);
+// }
+
+// seting up DateChooser
+
+DateChooser.nDateChooserID = 0;
+document.getElementById('tglUsulan1').date = new DateChooser();
+document.getElementById('tglUsulan1').date.setCloseTime(200);
+document.getElementById('tglUsulan1').date.setUpdateField({'tglUsulan1Display':'d F Y','tglUsulan1Input':'U'});
+document.getElementById('tglUsulan1Button').onclick = document.getElementById('tglUsulan1').date.display;
+document.getElementById('tglUsulan1').date.setLatestDate(new Date);
+if (!isNaN(parseInt(document.getElementById('tglUsulan1Input').value)))
+document.getElementById('tglUsulan1').date.setSelectedDate(new Date(document.getElementById('tglUsulan1Input').value * 1000));
+
+//creating barang list
+var listCalendar = new Array(); 
+var listIdx = 0;
+document.getElementById('detBarangContainer').addItem = function (brgId,brgKode,brgNama,brgHps,brgHargaLama,jmlDO,spesifikasi,tglPakai)
+{
+   var id = 'item_' + brgId;
+   if (document.getElementById(id)) return;
+   $("#rincianKosong").hide();
+   var container = this;
+   var fakeInput = document.getElementById('fakeInput');
+   if (!fakeInput.gvExcelLikeFormat) gValidation20090108['.gvFloat'](fakeInput);
+   if (container.lastChild.id && container.lastChild.id.indexOf('item') == 0)
+   {
+      var listNumber = parseInt(container.lastChild.firstChild.innerHTML);
+      if (!listNumber) listNumber = 1;
+      else listNumber++;
+   }
+   else var listNumber = 1;
+   
+   var tr = document.createElement('tr');
+   tr.setAttribute("id", id);
+   
+   // numbering
+   var no = document.createElement('td');
+   no.setAttribute("align", "center");
+   no.innerHTML = listNumber;
+   
+   // kode barang
+   var kodeBrg = document.createElement('td');
+   kodeBrg.setAttribute("align", "center");
+   kodeBrg.innerHTML = brgKode + "<input type='hidden' name='detail_barang[" + id + "][usulanBrgDetBrgId]' value='" + brgId + "' /><input type='hidden' name='detail_barang[" + id + "][brgKode]' value='" + brgKode + "' />";
+   
+   // nama barang
+   var namaBrg = document.createElement('td');
+   namaBrg.innerHTML = brgNama + "<input type='hidden' name='detail_barang[" + id + "][brgNama]' value='" + brgNama + "' />";
+   
+   // harga barang lama
+   var hrgLama = document.createElement('td');
+   hrgLama.setAttribute("align", "right");
+   hrgLama.innerHTML = fakeInput.gvExcelLikeFormat(brgHargaLama) + "<input type='hidden' name='detail_barang[" + id + "][brgHargaLama]' value='" + brgHargaLama + "' />";
+   
+   var sat = document.createElement('td');
+   sat.setAttribute("align", "right");
+   sat.innerHTML = 'unit' + "<input type='hidden' name='detail_barang[" + id + "][satuan]' value='unit' />";;
+   
+   // HPS
+   var hps = document.createElement('td');
+   hps.setAttribute("align", "right");
+   hps.innerHTML = "<input type='text' id='brgHps_"+id+"' name='detail_barang[" + id + "][brgHps]' value='" + brgHps + "' onkeyup='count(this)' size='11'/>";
+   //hps.innerHTML = fakeInput.gvExcelLikeFormat(brgHps) + "<input type='hidden' name='detail_barang[" + id + "][brgHps]' value='" + brgHps + "' />";
+   
+   // Jumlah DO
+   var jml = document.createElement('td');
+   jml.setAttribute("align", "center");
+   jml.innerHTML = "<input size='4' type='text' id='jml_"+id+"'name='detail_barang[" + id + "][usulanBrgDetJml]' value='"+jmlDO+"' onkeyup='count(this)'/>";
+   
+   // Total 1
+   var total1 = document.createElement('td');
+   total1.setAttribute("align", "right");
+   total1.setAttribute("id", id + "-total1");
+   total1.innerHTML = fakeInput.gvExcelLikeFormat(jmlDO * brgHargaLama);
+   
+   // Total 2
+   var total2 = document.createElement('td');
+   total2.setAttribute("align", "right");
+   total2.setAttribute("id", id + "-total2");
+   //total2.setAttribute("class", "subtotal");
+   total2.innerHTML = fakeInput.gvExcelLikeFormat(jmlDO * brgHps);
+   
+   // spesifikasi
+   var spec = document.createElement('td');
+   spec.innerHTML = "<textarea name='detail_barang[" + id + "][spesifikasi]'>"+spesifikasi+"</textarea>" + '<input type="hidden" id="'+id+'-total2_helper" class="subtotal" value="'+(jmlDO*brgHps)+'">';
+   
+   // Tombol Delete
+   var btn = document.createElement('td');
+   btn.setAttribute("align", "center");
+   btn.setAttribute("width", "32px");
+   btn.setAttribute("class", "links");
+   //btn.innerHTML = "<a onClick=\"var a = document.getElementById('detBarangContainer'); a.removeChild(document.getElementById('" + id + "')); if (a.firstChild.id.indexOf('item') != 0) a.lastChild.style.display = '';for (var i = 1; i < a.childNodes.length; i++) a.childNodes[i].firstChild.innerHTML = i;\" title='Hapus'><img src=\"images/button-delete.gif\" alt=\"Hapus\"/></a>";
+   btn.innerHTML = "<a onClick='delRow(\""+id+"\")' title='Hapus'><img src=\"images/button-delete.gif\" alt=\"Hapus\"/></a>";
+	   
+   //-- upload file arsip
+   var tdUpload = document.createElement('td');
+   tdUpload.innerHTML = "<input type='file' size='10' id='fileArsip[]' name='fileArsip[]'><input  type='button' onclick=\"\" value='Reset' style='display:none' />";
+
+   // input tgl pakai
+   var tdTglPakai = document.createElement('td');
+   if(tglPakai == null) tglPakai = '';
+   var html = "<input type='text' size='8' name='detail_barang[" + id + "][tglPakai]' id='tgl_"+id+"' value='"+tglPakai+"'/>";
+   tdTglPakai.innerHTML = html;
+   
+   tr.appendChild(no);
+   tr.appendChild(kodeBrg);
+   tr.appendChild(namaBrg);
+   tr.appendChild(spec);
+   //tr.appendChild(hrgLama);
+   tr.appendChild(tdUpload);
+   tr.appendChild(tdTglPakai);
+   tr.appendChild(jml);
+   tr.appendChild(sat);
+   tr.appendChild(hps);
+   //tr.appendChild(total1);
+   tr.appendChild(total2);
+   tr.appendChild(btn);
+   
+   container.appendChild(tr);
+   listCalendar[listIdx] = new dhtmlXCalendarObject(['tgl_'+id]);
+   listIdx++;
+   var childNode = hps.firstChild;
+   do {if (childNode.tagName && childNode.tagName.toUpperCase() == 'INPUT') gValidation20090108['.gvFloat'](childNode);} while (childNode = childNode.nextSibling);
+   return true;
+}
+
+delRow = function(id){
+	var a = document.getElementById('detBarangContainer');
+	a.removeChild(document.getElementById(id));
+	hit();
+}
+
+count = function(arg){
+	var fakeInput = document.getElementById('fakeInput');
+	if (!fakeInput.gvExcelLikeFormat) gValidation20090108['.gvFloat'](fakeInput);
+	
+	var id = arg.getAttribute('id');
+	if (id.indexOf("jml_") >= 0){
+		id = id.replace('jml_','');
+		var jml = parseInt(arg.value); var hps = parseFloat($("#brgHps_"+id).val().replace('.','').replace('.','').replace('.','').replace(',','.'));
+		var subtot = jml*hps;
+	}else{
+		id = id.replace('brgHps_','');
+		var hps = parseFloat(arg.value.replace('.','').replace('.','').replace('.','').replace(',','.')); var jml = parseInt($("#jml_"+id).val());
+		var subtot = jml*hps;
+	}
+	$('#'+id+'-total2').text(fakeInput.gvExcelLikeFormat(subtot));
+	$('#'+id+'-total2_helper').val(subtot);
+	hit();
+}
+
+hit = function(){
+	var fakeInput = document.getElementById('fakeInput');
+	if (!fakeInput.gvExcelLikeFormat) gValidation20090108['.gvFloat'](fakeInput);
+	
+	var sum = 0;
+	$(".subtotal").each(function() {
+	    var value = $(this).val(); 
+	    	sum += parseInt(value);  
+	});
+	$('#total').html(fakeInput.gvExcelLikeFormat(sum));
+}
+
+detailBarang = {JSON_DETAIL_BARANG};
+for (id in detailBarang){ document.getElementById('detBarangContainer').addItem(
+   detailBarang[id].usulanBrgDetBrgId,
+   detailBarang[id].brgKode,
+   detailBarang[id].brgNama,
+   detailBarang[id].brgHps,
+   detailBarang[id].brgHargaLama,
+   detailBarang[id].usulanBrgDetJml,
+   detailBarang[id].spesifikasi
+	);
+	hit();
+}
+// ---------
+
+// document.getElementById('detBarangContainer').addItem = function (brgId, /*brgKodeAkun, brgJenisPengadaan,*/ brgKodeBarang, usulanBrgDetBrgNama, usulanBrgDetBrgSpesifikasi, usulanBrgDetBrgSatuan, usulanBrgNilaiHps, jmlDO, isEditable, Status1, Status2)
+// {
+//    nomor = this.getElementsByTagName('tr').length;
+//    var tr = document.createElement('tr');
+//    var id = 'item_' + nomor;
+   
+//    tr.setAttribute("id", id);
+   
+// //    if(document.getElementById('combo_kode_akun')){
+// //       eval('combo_akun = ' + document.getElementById('combo_kode_akun').value+';');
+// //    }
+   
+//    //combo_barang = {JSON_JENIS_BARANG};
+
+//    //combo_jenis = {JSON_JENIS_PENGADAAN};
+
+//    //-- kode akun (hidden)
+// //    var tdKode = document.createElement('td');
+// //    var kodeSelect = document.createElement('select');
+// //    kodeSelect.setAttribute('name', 'detail_barang[' + id +'][usulanBrgDetKodeAkun]');
+// //    kodeSelect.options[0] = new Option('--PILIH--', 0);
+//   // for (i = 0; i < combo_akun.length; i++) kodeSelect.options[i+1] = new Option(combo_akun[i].name, combo_akun[i].id, (brgKodeAkun == combo_akun[i].id));
+// //    tdKode.appendChild(kodeSelect);
+
+//    //-- pengadaan (hidden)
+// //    var tdPengadaan = document.createElement('td');
+// //    for (i = 0; i < combo_jenis.length; i++) {
+// //       if(brgJenisPengadaan == combo_jenis[i].id){
+// //          brgJenisPengadaan = combo_jenis[i].name;
+// //          usulanBrgDetJenisPengadaanId = combo_jenis[i].id;
+// //       }
+// //    }
+// //    tdPengadaan.innerHTML = brgJenisPengadaan + "<input type='hidden' name='detail_barang[" + id + "][usulanBrgDetJenisPengadaanId]' value='" + usulanBrgDetJenisPengadaanId + "'>";
+
+//    //-- kode barang
+//    var tdKdBarang = document.createElement('td');
+//    /*for (i = 0; i < combo_barang.length; i++) {
+//       if(brgJenisBarang == combo_barang[i].id){
+//          brgJenisBarang = combo_barang[i].name;
+//          usulanBrgDetBrgKelompokId = combo_barang[i].id;
+//       }
+//    }*/
+//    tdKdBarang.innerHTML = brgKodeBarang ;//+ "<input type='hidden' name='detail_barang[" + id + "][usulanBrgDetBrgKelompokId]' value='" + usulanBrgDetBrgKelompokId + "'>";
+
+//     //-- nama barang
+//    var tdNama = document.createElement('td');
+//    tdNama.innerHTML = usulanBrgDetBrgNama + "<input type='hidden' name='detail_barang[" + id + "][usulanBrgDetBrgId]' value='" + brgId + "'><input type='hidden' name='detail_barang[" + id + "][usulanBrgDetBrgNama]' value='" + usulanBrgDetBrgNama + "'>";
+
+//    //- spesifikasi
+//    var tdSpek = document.createElement('td');
+//    tdSpek.innerHTML = usulanBrgDetBrgSpesifikasi + "<textarea name='detail_barang[" + id + "][usulanBrgDetBrgSpesifikasi]' style='visibility:hidden;'>"+usulanBrgDetBrgSpesifikasi+"</textarea>";
+
+//    //-- upload file arsip
+//    var tdUpload = document.createElement('td');
+//    tdUpload.innerHTML = "<input type='file' size='10' id='fileArsip[]' name='fileArsip[]'><input  type='button' onclick=\"\" value='Reset' style='display:none' />";
+
+//     //-- jumlah usulan
+//    var tdjumlah = document.createElement('td');
+//    tdjumlah.innerHTML = "<input size='4' style='text-align:right' onkeyup='hitungTotal();' type='text' name='detail_barang[" + id + "][usulanBrgDetJml]' id='usulanBrgDetJml[]' value='"+jmlDO+"'>";
+
+//    //-- satuan barang
+//    var tdSatuan = document.createElement('td');
+//    tdSatuan.setAttribute("align", "center");
+//    tdSatuan.innerHTML = usulanBrgDetBrgSatuan + "<input type='hidden' size='5' name='detail_barang[" + id + "][usulanBrgDetBrgSatuan]' value='" + usulanBrgDetBrgSatuan + "'>";
+
+//    //-- harga satuan
+//    var tdHps = document.createElement('td');
+//    tdHps.setAttribute("align", "right");
+//    tdHps.innerHTML = fakeInput.gvExcelLikeFormat(usulanBrgNilaiHps) + "<input type='hidden' size='8' style='text-align:right' id='usulanBrgNilaiHps[]' name='detail_barang[" + id + "][usulanBrgNilaiHps]' value='" + usulanBrgNilaiHps + "'>";
+
+//    //-- Subtotal
+//    var tdSubTotal = document.createElement('td');
+//    tdSubTotal.setAttribute("align", "right");
+//    tdSubTotal.innerHTML = "<div id='total2["+nomor+"]'>"+fakeInput.gvExcelLikeFormat(jmlDO * usulanBrgNilaiHps)+"</div>" + "<input type='hidden' size='10px' style='text-align:right' name='detail_barang[" + id + "][subTotal]' id ='subtotals[]' value='" + (jmlDO*usulanBrgNilaiHps) + "' readonly>   <input type='hidden'  id='"+nomor+"' name='subtotals2[]' value='" + (jmlDO*usulanBrgNilaiHps) + "' readonly>";
+
+//    var tdDelete = document.createElement('td');
+//    tdDelete.setAttribute("align", "center");
+//    tdDelete.setAttribute("width", "32px");
+//    tdDelete.setAttribute("class", "links");
+//    tdDelete.innerHTML = "<a onClick=\"document.getElementById('detBarangContainer').deleteItem('"+ id +"');\" title='Hapus'><img src=\"images/button-delete.gif\" alt=\"Hapus\"></a>";
+
+// //    tr.appendChild(tdKode);
+// //    tr.appendChild(tdPengadaan);
+//    tr.appendChild(tdKdBarang);
+//    tr.appendChild(tdNama);
+//    tr.appendChild(tdSpek);
+//    tr.appendChild(tdUpload);
+//    tr.appendChild(tdjumlah);
+//    tr.appendChild(tdSatuan);
+//    tr.appendChild(tdHps);
+//    tr.appendChild(tdSubTotal);
+//    tr.appendChild(tdDelete);
+
+//    this.appendChild(tr);
+//    var childNode = tdjumlah.firstChild;
+//    do {if (childNode.tagName && childNode.tagName.toUpperCase() == 'INPUT') gValidation20090108['.gvFloat'](childNode);} while (childNode = childNode.nextSibling);
+
+//    this.style.display = '';
+//    document.getElementById('rincianKosong').style.display = 'none';
+//    totalAkhir=hitungTotal();
+//    return true;
+// }
+
+// document.getElementById('detBarangContainer').deleteItem = function (id)
+// {
+//    var msg = confirm('Apakah anda akan menghapus item ini?');
+
+//    if(msg == true){
+//       this.removeChild(document.getElementById(id));
+//       Obj = this.getElementsByTagName('tr');
+//       if (Obj.length == 1) {
+//          this.style.display = '';
+//          document.getElementById('rincianKosong').style.display = '';
+//    /*
+//          document.getElementById('penjualan_langsung_subtotal').value = hitungTotal();
+//          document.getElementById('total_html').innerHTML = hitungTotal();  
+//          document.getElementById('total_value').value = hitungTotal();
+//          document.getElementById('penjualan_langsung_kembali_html').value = hitungTotal();
+//          document.getElementById('penjualan_langsung_kembali').value = hitungTotal();
+//    */
+//       }else for (i = 1; i < Obj.length; i++){
+//          //Obj[i].firstChild.innerHTML = i;
+//          totalAkhir=hitungTotal();
+//       }
+//    } else {
+//       return false;
+//    }
+// }
+
+
+function hitungTotal()
+{
+   var hasilHitung = 0;
+   var totalAkhir = 0;
+   var detJml = document.forms['frmInput'].elements['usulanBrgDetJml[]'];
+   var nilaiHps = document.forms['frmInput'].elements['usulanBrgNilaiHps[]'];
+   var subtot = document.forms['frmInput'].elements['subtotals[]'];
+   var subtot2 = document.forms['frmInput'].elements['subtotals2[]'];
+   
+   for(var i=0,m=detJml.length;i<m;++i)
+   {
+      jumlah1 = detJml[i].value;
+      jumlah2 = jumlah1.replace('.','');
+      jumlah = jumlah2.replace(',','.');
+      harga = nilaiHps[i].value;
+
+      hasilHitung = jumlah*harga;
+      
+      document.getElementById('total2['+subtot2[i].id+']').innerHTML = fakeInput.gvExcelLikeFormat(hasilHitung);
+      subtot[i].value = hasilHitung;
+      totalAkhir += hasilHitung;
+   }
+   document.getElementById('total').innerHTML = fakeInput.gvExcelLikeFormat(totalAkhir); 
+}
+
+/*detailBarang = {JSON_DETAIL_BARANG};
+for (id in detailBarang) document.getElementById('detBarangContainer').addItem(
+   detailBarang[id].usulanBrgDetBrgId,
+   detailBarang[id].usulanBrgDetKodeAkun,
+   detailBarang[id].usulanBrgDetJenisPengadaanId,
+   detailBarang[id].usulanBrgDetBrgKelompokId,
+   detailBarang[id].usulanBrgDetBrgNama,
+   detailBarang[id].usulanBrgDetBrgSpesifikasi,
+   detailBarang[id].usulanBrgDetBrgSatuan,
+   detailBarang[id].usulanBrgNilaiHps,
+   detailBarang[id].usulanBrgDetJml,
+   detailBarang[id].usulanIsEditable,
+   detailBarang[id].Status1,
+   detailBarang[id].Status2
+);*/
+
+document.getElementById('frmInput').numberValidate = function (Obj)
+{
+   str = Obj.old;
+   Obj.old = 0;
+   if (Obj.value == "" || parseInt(Obj.value) == Obj.value) return true;
+   Obj.value = str;
+   return false;
+}
+
+</script>
+<!-- /patTemplate:tmpl -->

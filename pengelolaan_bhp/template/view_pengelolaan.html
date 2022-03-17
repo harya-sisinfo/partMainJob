@@ -1,0 +1,143 @@
+<!-- patTemplate:tmpl name="content" -->
+<script language="javascript" type="text/javascript">   
+    function centangin_semua(varname, start_num, end_num) {
+        var obj = document.getElementById('cek_all');
+        if(obj.checked == false) {
+            for(i=start_num;i<=end_num;i++) {
+                document.getElementById(varname + i).checked = false;
+            }
+        } else {
+            for(i=start_num;i<=end_num;i++) {
+                document.getElementById(varname + i).checked = true;
+            }
+        }
+    }
+    function show_checkbox (varname, start_num, end_num) {
+        //show check_all checkbox
+        document.getElementById('cek_all').style.display='';
+        //document.getElementById('btnHapus').type="button";
+    }
+    function konfirmasi_delete(varname, start_num, end_num) {
+        //var idDelete = document.getElementById('id_delete').value;
+        for(i=start_num;i<=end_num;i++) {
+            if(document.getElementById(varname + i).checked == true) {
+                //document.getElementById('form_list').submit();
+                document.getElementById('btnHapus').type="submit";
+                document.getElementById('btnHapus').click();
+                return true;
+            }
+        }
+        alert('Silakan beri tanda cek pada minimal 1 data');
+        return false;
+    }
+    document.onload = show_checkbox('trans_id_','{FIRST_NUMBER}','{LAST_NUMBER}');
+   
+	
+	var xpopup;
+    function bukaPopupCetak(xurl) {
+        xpopup = window.open(xurl,'xpopup','width=900,height=600,resizable=yes,scrollbars=yes,right=0;center');
+        xpopup.focus();
+    }
+</script>
+<h1>Register Transaksi Harian</h1>
+<!-- patTemplate:tmpl name="warning_box" visibility="hidden" -->
+<div class="{NOTEBOX}">
+		{ISI_PESAN}
+</div>
+<!-- /patTemplate:tmpl -->
+<br/>
+<form method="POST" action="{URL_SEARCH}" class="dataquest xhr_simple_form dest_subcontent-element" name="filterbox">
+    <table>
+        <tr class="subhead">
+            <th colspan="2"><h2><strong><!-- patTemplate:gtfwgetconfig config="language" name="pencarian" / --></strong></h2></th>
+        </tr>
+        <tr>
+            <th width="30%">Nomor Transaksi</th>
+            <td><input type="text" name="notransaksi" value="{NOTRANS}" size="30"></td>
+        </tr>
+        <tr>
+            <th>Nama Penerima</th>
+            <td><input type="text" name="nama" size="30" id="nama" value="{NAMA}"></td>
+        </tr>
+        <tr>
+         <th>Periode Awal</th>
+         <td><!-- patTemplate:gtfwrendermodule module="tanggal" submodule="Tanggal" action="view" name="ta" / --></td>
+      </tr>
+      <tr>
+         <th>Periode Akhir</th>
+         <td><!-- patTemplate:gtfwrendermodule module="tanggal" submodule="Tanggal" action="view" name="takh" / --></td>
+      </tr>
+        <tr>
+            <th>&nbsp;</th>
+            <td>
+                <input type="submit" name="btncari" value=" Tampilkan &raquo;" class="buttonSubmit"/>
+            </td>
+        </tr>
+    </table>
+</form>
+
+
+<form method="POST" action="{URL_DELETE}" class="xhr_simple_form dest_subcontent-element" id="form_list">
+
+    <div class="pageBar">
+        <!-- patTemplate:gtfwrendermodule module="paging" submodule="paging" action="view" name="paging_top"  / -->
+        <div class="toolbar">
+            <a class="xhr dest_subcontent-element" href="{URL_ADD}" title="Tambah Lelang Barang" >
+                <img src="images/button-add.gif" alt="">
+                <!-- patTemplate:gtfwgetconfig config="language" name="tambah" / -->
+            </a>
+            <input style="display:none" type="submit" id="btnHapus" name="btnHapus" value="Hapus" class="inputButton" onclick="konfirmasi_delete('trans_id_','{FIRST_NUMBER}','{LAST_NUMBER}')" />
+        </div>
+    </div>
+
+    <table class="table-common" width='100%'>
+        <tr>
+            <th width="5"><!-- patTemplate:gtfwgetconfig config="language" name="no" / --></th>
+            <th width="5" style="display:none"><input type="checkbox" style="display:none" name="cek_all" id="cek_all" value="ALL" onclick="centangin_semua('trans_id_','{FIRST_NUMBER}','{LAST_NUMBER}');" /></th>
+            <th>Tanggal</th>
+            <th>Nomor Transaksi</th>
+            <th>Penerima</th>
+				<th>Unit</th>
+            <th>Keterangan</th>
+            <th>Aksi</th>
+        </tr>
+        <!-- patTemplate:tmpl name="data_grid" type="condition" conditionvar="IS_DATA_EMPTY" -->
+        <!-- patTemplate:sub condition="YES" -->
+        <tr><td colspan="7" align="center"><em>--<!-- patTemplate:gtfwgetconfig config="language" name="data_kosong" / -->--</em></td></tr>
+        <!-- /patTemplate:sub -->
+        <!-- patTemplate:sub condition="NO" -->
+        <!-- patTemplate:tmpl name="data_list" -->
+        <tr class="{DATA_CLASS_NAME}">
+            <td style="text-align: center">{DATA_NUMBER}</td>
+            <td align="center" style="display:none">
+                <input type="checkbox" name="id[]" id="trans_id_{DATA_NUMBER}" value="{DATA_TRANS_ID}" /><input type="hidden" name="name[{DATA_TRANS_ID}]" value="{DATA_TRANS_NOMOR}" />
+            </td>
+            <td style="text-align: left">{DATA_TRANS_TANGGAL}</td>
+            <td style="text-align: left">{DATA_TRANS_NOMOR}</td>
+            <td style="text-align: left">{DATA_TRANS_NAMA}</td>
+            <td style="text-align: left">{DATA_TRANS_UNIT}</td>
+            <td style="text-align: left">{DATA_TRANS_KETERANGAN}</td>
+            <td class="links" align="center">
+					<a onclick="showPopup('{DATA_URL_DETAIL}', 'Detil Transaksi', 600, 400)" title="Detail">
+						<img src="images/button-detail.gif" alt="Detail"/>
+					</a>
+					<a onclick="bukaPopupCetak('{DATA_URL_CETAK}')" title="Cetak">
+						<img src="images/button-print.gif" alt="Update Transaksi"/>
+					</a>
+            </td>
+        </tr>
+
+        <!-- /patTemplate:tmpl -->
+        <!-- /patTemplate:sub -->
+        <!-- /patTemplate:tmpl -->
+    </table>
+</form>
+<br/>
+<div class="petunjuk-area">
+    <h4><!-- patTemplate:gtfwgetconfig config="language" name="petunjuk" / -->:</h4>
+    <ul>
+        <li>Klik <img src="images/button-add.gif"> <!-- patTemplate:gtfwgetconfig config="language" name="petunjuk_tambah" / --> transaksi</li>
+        <li>Klik <img src="images/button-detail.gif"> untuk melihat detail transaksi register harian</li>
+    </ul>
+</div>
+<!-- /patTemplate:tmpl -->

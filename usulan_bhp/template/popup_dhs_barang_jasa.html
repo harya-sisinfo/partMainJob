@@ -1,0 +1,76 @@
+<!-- patTemplate:tmpl name="content" -->
+<h1>DHS Barang/Jasa</h1>
+<br />
+<form method="POST" action="{URL_SEARCH}" class="dataquest xhr_simple_form dest_popup-subcontent" id="filterboxpopup">
+   <table>
+      <tr>
+         <th colspan="2"><h2><strong>Pencarian</strong></h2></th>
+      </tr>
+      <tr>              
+         <th width="30%"><!-- patTemplate:gtfwgetconfig config="language" name="nama_barang" / --></th>
+         <td><input type="text" name="barangNama" value="{BARANGNAMA}" size="30" /></td>
+      </tr>
+      <tr>
+         <th>&nbsp;</th>
+         <td>
+            <input type="submit" name="btncari" value="Tampilkan &raquo;" class="buttonSubmit"/>
+         </td>
+      </tr>
+   </table>
+</form>
+<br />
+<div class="pageBar">
+        <!-- patTemplate:gtfwrendermodule module="paging" submodule="paging" action="view" name="paging_top"  / -->
+</div>
+<table class="table-common" width="100%">
+   <tr>
+      <th width="5px"><!-- patTemplate:gtfwgetconfig config="language" name="no" / --></th>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="nama" / --></th>
+      <th>Spesifikasi</th>
+      <th>Satuan</th>
+      <th>RAB</th>
+      <th width="32px"><!-- patTemplate:gtfwgetconfig config="language" name="aksi" / --></th>
+   </tr>
+   <!-- patTemplate:tmpl name="data" type="condition" conditionvar="DATA_EMPTY" -->
+      <!-- patTemplate:sub condition="YES" -->
+      <tr><td colspan="5" align="center"><em>-- <!-- patTemplate:gtfwgetconfig config="language" name="data_kosong" / --> --</em></td></tr>
+      <!-- /patTemplate:sub -->
+      <!-- patTemplate:sub condition="NO" -->
+         <!-- patTemplate:tmpl name="data_item" -->
+         <tr class="{DATA_CLASS_NAME}">
+            <td align="center">{DATA_NUMBER}</td>
+            <td>{DATA_BARANGNAMA}</td>
+            <td>{DATA_DHSBARANGJASASPESIFIKASI}</td>
+            <td>{DATA_BARANGSATUAN}</td>
+            <td align="right">{DATA_BARANGHPS_FORMAT}</td>
+            <td class="links">
+               <a title="Pilih">
+               	<img src="images/button-check.gif" alt="pilih" onclick="javascript: select_this('{DATA_BARANGID}', '{DATA_KATEGORIDHSID}', '{DATA_BARANGNAMA}', '{DATA_BARANGHPS}', '{DATA_DHSBARANGJASASPESIFIKASI}', '{DATA_BARANGSATUAN}', '{DATA_DHSBARANGJASAJENISPENGADAANID}', '{DATA_JENISPENGADAANISEDITABLE}', '')"/></a>
+            </td>
+         </tr>
+         <!-- /patTemplate:tmpl -->
+      <!-- /patTemplate:sub -->
+   <!-- /patTemplate:tmpl -->
+</table>
+<script language='javascript'>
+function select_this(brgId, kategoriDhsId, brgNama, brgHps, spesifikasi, satuan, dhsBarangJasaJenisPengadaanId, jenisPengadaanIsEditable)
+{
+   brgHps = (parseInt(brgHps)) ? parseInt(brgHps) : 0;
+   
+   document.getElementById('detBarangContainer').addItem(
+      brgId,
+      '',
+      dhsBarangJasaJenisPengadaanId,
+      kategoriDhsId,
+      brgNama,
+      spesifikasi,
+      satuan,
+      brgHps,
+      '1',
+      jenisPengadaanIsEditable,
+      'Dalam Proses',
+      ''
+   );
+}
+</script>
+<!-- /patTemplate:tmpl -->

@@ -1,0 +1,152 @@
+<!-- patTemplate:tmpl name="content" -->
+<style type="text/css" media="screen">
+/* <![CDATA[ */
+    table.table-common tr.table-yellow td{
+        background-color: #FFFF66;
+    }
+/* ]]> */
+</style>
+<h1>Rencana Kegiatan Anggran Tahunan</h1>
+<br />
+<form method="POST" name="frmInput" action="{URL_SEARCH}" class="dataquest xhr_simple_form dest_popup-subcontent" id="filterboxpopup">
+<table>
+	<tr>
+		<th colspan="2">
+			<h3>
+				<strong>
+					<!-- patTemplate:gtfwgetconfig config="language" name="pencarian" / -->
+				</strong>
+			</h3>
+		</th>
+	</tr>
+
+	<tr style="display:none">
+		<th width="30%">
+			<!-- patTemplate:gtfwgetconfig config="language" name="tahun_periode" / -->
+		</th>
+		<td>
+			<!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" 
+			action="view" name="data[ta_id]"  / -->
+		</td>
+	</tr>
+	<tr>
+		<th>
+			<!-- patTemplate:gtfwgetconfig config="language" name="kode" / -->
+		</th>
+		<td>
+			<input type="text" value="{SEARCH_KODE}" size="20" name="data[kode]" id="kode" />
+		</td>
+	</tr>
+	 <tr>
+		<th>
+			<!-- patTemplate:gtfwgetconfig config="language" name="nama" / -->
+		</td>
+		<td>
+			<input type="text" name="data[nama]" size="35" id="nama" value="{SEARCH_NAME}" />
+		</td>
+	</tr>
+	<tr style="display:none">
+		<th>
+			Jenis Kegiatan
+		</th>
+		<td>
+			<!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" 
+			action="view" name="data[jenis_kegiatan]"  / -->
+		</td>
+	</tr>
+
+	<tr style="display:none">
+		<th width="30%">
+			<!-- patTemplate:gtfwgetconfig config="language" name="unit" / --> / 
+			<!-- patTemplate:gtfwgetconfig config="language" name="sub_unit_kerja" / -->
+		</th>
+		<td>
+			<!-- patTemplate:tmpl name="cek_unit_kerja_parent" type="condition"
+				 conditionvar="IS_PARENT" -->
+			<!-- patTemplate:sub condition="YES" -->
+			<input type="text" name="data[unit_nama][readonly]" id="unit_nama_ro" 
+			value="{SEARCH_UNIT_NAMA}" size="50" readonly="readonly" />
+			<input type="button" name="btnshift" value="..." 
+			onclick="javascript:popupUnitKerja()" />
+			<!-- /patTemplate:sub -->
+			<!-- patTemplate:sub condition="NO" -->
+				<label><b>{SEARCH_UNIT_NAMA}</b></label>
+			<!-- /patTemplate:sub -->
+			<!-- /patTemplate:tmpl -->	 
+			<input type="hidden" name="data[unit_nama]" id="unit_nama_hidden" 
+			value="{SEARCH_UNIT_NAMA}" size="25"  />
+			<input type="hidden" name="data[unit_id]" id="unit_id" 
+			value="{SEARCH_UNIT_ID}" size="25" />
+		</td>
+	</tr>
+	<tr style="display:none">
+        <th width="30%"><!-- patTemplate:gtfwgetconfig config="language" name="pengadaan" / --></th>
+        <td>
+           <!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" 
+			action="view" name="data[pengadaan]"  / -->
+        </td>
+   </tr>
+	<tr>
+		<th>
+			&nbsp;
+		</th>
+		<td>
+			<input name="btnTampilkan" value=" Tampilkan " class="buttonSubmit" type="submit" />
+		</td>
+	</tr>
+</table>
+</form>
+<br/>
+<div class="pageBar">
+<!-- patTemplate:gtfwrendermodule module="paging" submodule="paging" action="view" name="paging_top"  / -->
+</div>
+   <table class="table-common" width="100%">
+      <tr>
+         <th width="5"><!-- patTemplate:gtfwgetconfig config="language" name="no" / --></th>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="kode" / --></th>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="nama" / --></th>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="unit" / --> / <!-- patTemplate:gtfwgetconfig config="language" name="sub_unit" / --></th>
+			<th>Nilai Disetujui (Rp.)</th>
+			<th>Nilai Digunakan (Rp.) </th>
+			<th>Nilai Sisa (Rp.) </th>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="aksi" / --></th>
+      </tr>
+      <!-- patTemplate:tmpl name="data_grid" type="condition" conditionvar="IS_DATA_EMPTY" -->
+         <!-- patTemplate:sub condition="YES" -->
+         <tr><td colspan="8" align="center"><em>--<!-- patTemplate:gtfwgetconfig config="language" name="data_kosong" / -->--</em></td></tr>
+         <!-- /patTemplate:sub -->
+         <!-- patTemplate:sub condition="NO" -->
+            <!-- patTemplate:tmpl name="data_item" -->
+            <tr class="{DATA_CLASS_NAME}">
+               <td align="center">{DATA_NOMOR}</td>
+					<td>{DATA_SUBKEGIATAN_KODE}</td>
+               <td>{DATA_SUBKEGIATAN_NAMA}</td>
+               <td>{DATA_UNIT_NAMA}</td>
+               <td style="text-align:right;">{DATA_NILAI_APPROVE_PENGADAAN}</td>
+					<td style="text-align:right;">{DATA_NILAI_DIGUNAKAN}</td>
+					<td style="text-align:right;">{DATA_NILAI_SISA}</td>
+               <td class="links" align="center">
+						{DATA_URL_AKSI}
+               </td>
+            </tr>
+            <!-- /patTemplate:tmpl -->
+         <!-- /patTemplate:sub -->
+      <!-- /patTemplate:tmpl -->
+   </table>
+	<script language='javascript'>
+function select_this (id1, id2, id3, id4)
+{
+   document.getElementById('POP_UP_MAK_KODE').value = id1;
+   document.getElementById('POP_UP_MAK_NAMA').value = id2;
+   document.getElementById('POP_UP_MAK_NOMINAL').value = id3;
+   if (document.getElementById('POP_UP_MAK_THANGGARID')){
+      
+      document.getElementById('POP_UP_MAK_THANGGARID').value = id4;
+      
+   	GtfwAjax.replaceContentWithUrl('rencana_pengadaan_barang', '<!-- patTemplate:gtfwgeturl module="mr_usulan_barang" sub="tableRencanaPengeluaran" action="view" type="html" htmlentities="no" / -->&ascomponent=1&dataId='+id4);
+   }
+   
+	popupClose();
+}
+</script>
+<!-- /patTemplate:tmpl -->

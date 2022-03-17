@@ -1,0 +1,87 @@
+<!-- patTemplate:tmpl name="content" -->
+<h1>Usulan Barang</h1>
+<h2>Approval Usulan</h2>
+<br />
+<form method="POST" action="{URL_ACTION}" id="frmInput" class="xhr_form std_form">
+<table class="table-edit" width="100%">
+   <tr>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="no_usulan" / --></th>
+      <td>{USULANBRGNOUSULAN}</td>
+   </tr>
+   <tr>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="tanggal_usulan" / --></th>
+      <td><!-- patTemplate:var name="usulanBrgTglUsulan" modifier="gtfwindonesiandate" format="long" separator=" " / --></td>
+   </tr>
+   <tr style="display:none">
+      <th>Periode</th>
+      <td>{PERIODENAMA}</td>
+   </tr>
+   <tr>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="unit" / --></th>
+      <td>{UNITKERJANAMA}</td>
+   </tr>
+   <tr>
+      <th>Status Approval</th>
+      <td>
+         <input type="hidden" name="usulanBrgId" value="{USULANBRGID}">
+         <!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" action="view" name="statusApproval"  / -->  
+      </td>
+   </tr>
+   <tr class="buttons">
+      <th></th>
+      <td>
+         <input type="submit" name="btnsimpan" id="btnSimpan" value=" Simpan " class="buttonSubmit"/>
+         <a class="xhr dest_subcontent-element" href="{URL_BACK}" >
+            <input  type="button"  name="btnbalik" value=" Batal " class="buttonSubmit"/>
+         </a>
+      </td>
+   </tr>
+</table>
+</form>
+<br/>
+<div class="pageBar">
+   <div class="toolbar">
+      <a class="xhr dest_subcontent-element" href="{URL_BACK}" title="Lihat Daftar Usulan" ><img src="images/button-bac.gif" alt="">Lihat Daftar Usulan</a>
+   </div>
+</div>
+<table class="table-common" width="600px">
+   <tr>
+      <th width="5px"><!-- patTemplate:gtfwgetconfig config="language" name="no" / --></th>
+      <th>Kode Barang</th>
+<!--       <th>Jenis Barang</th> -->
+      <th width="120px"><!-- patTemplate:gtfwgetconfig config="language" name="nama_barang" / --></th>
+<!--       <th>Jenis Pengadaan</th> -->
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="spesifikasi" / --></th>
+<!--       <th>Status</th> -->
+<!--       <th>Catatan Verifikasi</th> -->
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="jumlah_usulan" / --></th>
+      <th>Total (Berdasarkan Harga Satuan) (Rp)</th> 
+   </tr>
+   <!-- patTemplate:tmpl name="data" type="condition" conditionvar="DATA_EMPTY" -->
+      <!-- patTemplate:sub condition="YES" -->
+   <tr><td colspan="10" align="center"><em>-- <!-- patTemplate:gtfwgetconfig config="language" name="data_kosong" / --> --</em></td></tr>
+      <!-- /patTemplate:sub -->
+      <!-- patTemplate:sub condition="NO" -->
+         <!-- patTemplate:tmpl name="data_item" -->
+   <tr class="{CLASS_NAME}">
+      <td align="center">{NOMOR}</td>
+      <td align="left">{USULANBRGDETKODEAKUN}</td>
+<!--       <td>{KATEGORIDHSNAMA}</td> -->
+      <td>{DHSBARANGJASANAMA}</td>
+<!--       <td align="left">{JENISPENGADAANNAMA}</td> -->
+      <td align="left">{USULANBRGDETBRGSPESIFIKASI}</td>
+<!--       <td align="left">{USULANBRGDETSTATUSVERIFIKASI}</td> -->
+<!--       <td align="left">{USULANBRGDETCATATAN}</td> -->
+      <td align="center">{USULANBRGDETJML}</td>
+      <td align="right">{USULANBRGNILAIUSULAN}</td>
+
+   </tr>
+         <!-- /patTemplate:tmpl -->
+      <!-- /patTemplate:sub -->
+   <!-- /patTemplate:tmpl -->
+   <tr>
+      <td colspan="5" align="right"><strong>Total Usulan (Rp)</strong></td>
+      <td align="right"><strong>{TOTAL_PENGADAAN}</strong></td>
+   </tr>
+</table>
+<!-- /patTemplate:tmpl -->

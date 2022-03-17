@@ -1,0 +1,104 @@
+<!-- patTemplate:tmpl name="content" -->
+<div style="height:300px;overflow:auto;">
+         	<table class="table-common" width="100%">
+               <thead>
+                  <tr>
+                     <th>Kode<input type="hidden" value='{COMBO_KODE_AKUN}' id="combo_kode_akun" name="combo_kode_akun"></th>
+                     <th>Nama</th>
+                     <th>Nominal Usulan (Rp.)</th>
+                     <th>Nominal Setuju (Rp.)</th>
+                     <th>Satuan Usulan</th>
+                     <th>Satuan Setuju</th>
+                     <th>Jumlah Usulan (Rp.)</th>
+                     <th>Jumlah Setuju (Rp.)</th>
+							<th>Status Approval</th>
+							<th>Keterangan</th>
+                  </tr>
+               </thead>
+               <tbody>
+               <!-- patTemplate:tmpl name="data" type="condition" conditionvar="DATA_EMPTY" -->
+                  <!-- patTemplate:sub condition="YES" -->
+                  <tr><td colspan="10" align='center'><em>-- <!-- patTemplate:gtfwgetconfig config="language" name="data_kosong" / --> --</em></td></tr>
+                  <!-- /patTemplate:sub -->
+                  <!-- patTemplate:sub condition="NO" -->
+                     <!-- patTemplate:tmpl name="data_items" -->
+                  <tr class="{DATA_CLASS_NAME}" style="{DATA_STYLE}">
+                    <td align="center">
+                        {DATA_KODE}
+                    </td>
+                    <td>
+                        {DATA_NAMA}
+                        <div style="color:#333333; 
+                                    font-size:11px;
+                                    margin-left:20px;
+                                    font-style:italic;
+                                    text-align:left;">
+                            {DATA_DESKRIPSI}
+                            {DATA_RUMUS_SATUAN}
+                        </div>
+                    </td>
+                    <td align="right">
+                        {DATA_FORMAT_NOMINAL_USULAN}
+                        <input type="hidden" name="formula[{DATA_ID}]" value="{DATA_FORMAT_FORMULA}" />
+                    </td>
+                    <td align="right">
+                        <!-- patTemplate:tmpl name="nominal" type="condition" conditionvar="APPROVAL" -->
+                        <!-- patTemplate:sub condition="BELUM" -->
+                            <input type="text" id="nominal_{DATA_NUMBER}" name="nominal[{DATA_ID}]" 
+                            value="{DATA_NOMINAL_SETUJU}" style="text-align:right" size="10" 
+                            onkeyup="cekMax('{DATA_NUMBER}');terbilang(this, 'terbilang')" />
+                            <input type="hidden" id="nominalmax_{DATA_NUMBER}" 
+                            name="nominalmax[{DATA_ID}]" value="{DATA_NOMINAL_USULAN}" />
+                        <!-- /patTemplate:sub -->
+                        <!-- patTemplate:sub condition="SUDAH" -->
+                            {DATA_FORMAT_NOMINAL_SETUJU}
+                            <input type="hidden" id="nominal_{DATA_NUMBER}" 
+                            name="nominal[{DATA_ID}]" value="{DATA_NOMINAL_SETUJU}" />
+
+                        <!-- /patTemplate:sub -->
+                        <!-- /patTemplate:tmpl -->
+                    </td>
+                    <td align="right">{DATA_SATUAN_USULAN}</td>
+                    <td align="right">
+                        <!-- patTemplate:tmpl name="satuan" type="condition" conditionvar="APPROVAL" -->
+                            <!-- patTemplate:sub condition="BELUM" -->
+                                <input type="text" id="satuan_{DATA_NUMBER}" 
+                                name="satuan[{DATA_ID}]" value="{DATA_SATUAN_SETUJU}" 
+                                style="text-align:right" size="5" onkeyup="jumlahkan('{DATA_NUMBER}')" />
+                            <!-- /patTemplate:sub -->
+                            <!-- patTemplate:sub condition="SUDAH" -->
+                                {DATA_FORMAT_SATUAN_SETUJU}
+                            <!-- /patTemplate:sub -->
+                        <!-- /patTemplate:tmpl -->
+                    </td>
+                    <td align="right" id="jumlah_usulan_{DATA_NUMBER}">
+                        {DATA_FORMAT_JUMLAH_USULAN}
+                    </td>
+                    <td align="right" id="jumlah_{DATA_NUMBER}">
+                        {DATA_FORMAT_JUMLAH_SETUJU}
+                    </td>
+                    <td align="center">
+                        {DATA_STATUS_APPROVE_LABEL}
+                    </td>
+                    <td width="150px">
+                        <input type="hidden" id="jumlahkirim_{DATA_NUMBER}" 
+                        name="jumlah[{DATA_ID}]" value="{DATA_FORMAT_JUMLAH_SETUJU}" />
+                        <!-- patTemplate:tmpl name="keterangan" type="condition" conditionvar="APPROVAL" -->
+                            <!-- patTemplate:sub condition="BELUM" -->
+                                <textarea id="keterangan_{DATA_NUMBER}" name="keterangan[{DATA_ID}]" rows="2" 
+                                cols="20">{DATA_KETERANGAN}</textarea>
+                            <!-- /patTemplate:sub -->
+                            <!-- patTemplate:sub condition="SUDAH" -->
+                                {DATA_KETERANGAN}
+                            <!-- /patTemplate:sub -->
+                        <!-- /patTemplate:tmpl -->
+                    </td>
+                </tr>
+                     <!-- /patTemplate:tmpl -->
+                  <!-- /patTemplate:sub -->
+               <!-- /patTemplate:tmpl -->
+               </tbody>
+               
+             </table>
+       </div>
+<!-- /patTemplate:tmpl -->

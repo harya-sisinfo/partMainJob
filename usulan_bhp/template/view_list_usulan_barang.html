@@ -1,0 +1,164 @@
+<!-- patTemplate:tmpl name="content" -->
+<h1>Usulan Barang Habis Pakai (BHP)</h1>
+<br />
+<form method="POST" action="{URL_SEARCH}" class="dataquest xhr_simple_form dest_subcontent-element" id="filterbox">
+   <table>
+      <tr>
+         <th colspan="2"><h2><strong>Pencarian</strong></h2></th>
+      </tr>
+      <tr>
+         <th width="25%"><!-- patTemplate:gtfwgetconfig config="language" name="tanggal_usulan" / --></th>
+         <td>
+            <span id='tglUsulanAwal'>
+               <input type='text' name='tglUsulanAwalDisplay' value='{TGLUSULANAWALDISPLAY}' id='tglUsulanAwalDisplay' readonly />
+               <input type='hidden' name='tglUsulanAwal' id='tglUsulanAwalInput' value='{TGLUSULANAWAL}'/>
+               <input type='button' value='...' id='tglUsulanAwalButton' title='Klik untuk memilih tanggal!'/>
+            </span>
+            <span><!-- patTemplate:gtfwgetconfig config="language" name="s_d" / --></span>
+            <span id='tglUsulanAkhir'>
+               <input type='text' name='tglUsulanAkhirDisplay' value='{TGLUSULANAKHIRDISPLAY}' id='tglUsulanAkhirDisplay' readonly />
+               <input type='hidden' name='tglUsulanAkhir' id='tglUsulanAkhirInput' value='{TGLUSULANAKHIR}'/>
+               <input type='button' value='...' id='tglUsulanAkhirButton' title='Klik untuk memilih tanggal!'/>
+            </span>
+         </td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="unit" / --></th>
+         <td>
+            <!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" action="view" name="unit"  / -->
+         </td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="nama_barang" / --></th>
+         <td>
+            <input type="text" name="kode" value="{KODE}" size="30"/>
+         </td>
+      </tr>
+		<tr style="display:none">
+         <th>Periode</th>
+         <td>
+            <!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" action="view" name="periode"  / -->
+         </td>
+      </tr>
+      <tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="status_persetujuan" / --></th>
+         <td>
+            <!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" action="view" name="status"  / -->
+         </td>
+      </tr>
+      <tr>
+         <th>&nbsp;</th>
+         <td>
+            <input type="submit" name="btncari" value=" Tampilkan &raquo;" class="buttonSubmit"/>
+         </td>
+      </tr>
+   </table>
+</form>
+<br />
+
+<!-- patTemplate:tmpl name="warning_box" visibility="hidden" -->
+<div class="{CLASS_PESAN}">
+   {ISI_PESAN}
+</div>
+<br/>
+<!-- /patTemplate:tmpl -->
+
+<div class="pageBar">
+   <!-- patTemplate:gtfwrendermodule module="paging" submodule="paging" action="view" name="paging_top"  / -->
+   <div class="toolbar"> 
+      <a class="xhr dest_subcontent-element" href="{URL_ADD}" title="Tambah" ><img src="images/button-add.gif" alt=""> <!-- patTemplate:gtfwgetconfig config="language" name="tambah" / --></a>
+   </div>
+</div>
+
+<table class="table-common" width="950px">
+   <tr>
+		<th width="5px"><!-- patTemplate:gtfwgetconfig config="language" name="no" / --></th>
+<!--       <th>Periode</th> -->
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="unit" / --></th>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="tanggal_usulan" / --></th>
+      <th>Nomor Usulan</th>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="jumlah_item" / --></th>
+      <th>Total Usulan (Rp)</th>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="status" / --></th>
+      <th>Operator</th>
+      <th>Verifikator</th>
+      <th width="63px"><!-- patTemplate:gtfwgetconfig config="language" name="aksi" / --></th>
+   </tr>
+   <!-- patTemplate:tmpl name="data" type="condition" conditionvar="DATA_EMPTY" -->
+      <!-- patTemplate:sub condition="YES" -->
+      <tr><td colspan="11" align="center"><em>-- <!-- patTemplate:gtfwgetconfig config="language" name="data_kosong" / --> --</em></td></tr>
+      <!-- /patTemplate:sub -->
+      <!-- patTemplate:sub condition="NO" -->
+         <!-- patTemplate:tmpl name="data_item" -->
+         <tr class="{CLASS_NAME}">
+				<td align="center">{NOMOR}</td>
+<!--             <td>{PERIODE}</td> -->
+            <td>{UNITKERJANAMA}</td>
+            <td align="center"><!-- patTemplate:var name="tglUsulan" modifier="gtfwindonesiandate" format="long" separator=" " / --></td>
+            <td align="">{NOMORUSULAN}</td>
+            <td align="center">{JUMLAHITEM}</td>
+            <td align="right">{TOTALUSULAN}</td>
+            <td>{STATUS}</td>
+            <td>{USERNAME}</td>
+            <td>{VERIFIKATOR}</td>
+            <td class="links">
+               <a onclick='javascript: showPopup("{URL_DETAIL}", "", 900, 550);'>
+                  <img src="images/button-detail.gif" alt="Detail"/>
+               </a>
+               <a class="xhr dest_subcontent-element" href="{URL_EDIT}" title="Ubah" style="display:{DISPLAY}">
+                  <img src="images/button-edit.gif" alt="Ubah"/>
+               </a>
+               <a class="xhr dest_subcontent-element" href="{URL_APPROVE}" title="Approve" style="display:{DISPLAY}">
+                  <img src="images/button-check.gif" alt="Approve"/>
+               </a>
+            </td>
+         </tr>
+         <!-- /patTemplate:tmpl -->
+      <!-- /patTemplate:sub -->
+   <!-- /patTemplate:tmpl -->
+         <tr>
+            <td colspan="5" align="right"><strong>Total (Rp)</strong></td>
+            <td align="right"><strong>{TOTAL_USULAN}</strong></td>
+            <td colspan="4"></td>
+         </tr>
+</table>
+<br/>
+
+<script language="javascript" type="text/javascript">
+	DateChooser.nDateChooserID = 0;
+	document.getElementById('tglUsulanAwal').date = new DateChooser();
+	document.getElementById('tglUsulanAwal').date.setCloseTime(200);
+	document.getElementById('tglUsulanAwal').date.setUpdateField({'tglUsulanAwalDisplay':'d F Y','tglUsulanAwalInput':'U'});
+	document.getElementById('tglUsulanAwalButton').onclick = document.getElementById('tglUsulanAwal').date.display;
+	document.getElementById('tglUsulanAwal').date.setUpdateFunction(function (objDate) {document.getElementById('tglUsulanAkhir').date.setEarliestDate(objDate)});
+	document.getElementById('tglUsulanAwal').date.setLatestDate(new Date);
+
+	document.getElementById('tglUsulanAkhir').date = new DateChooser();
+	document.getElementById('tglUsulanAkhir').date.setCloseTime(200);
+	document.getElementById('tglUsulanAkhir').date.setUpdateField({'tglUsulanAkhirDisplay':'d F Y','tglUsulanAkhirInput':'U'});
+	document.getElementById('tglUsulanAkhirButton').onclick = document.getElementById('tglUsulanAkhir').date.display;
+	document.getElementById('tglUsulanAkhir').date.setUpdateFunction(function (objDate) {document.getElementById('tglUsulanAwal').date.setLatestDate(objDate)});
+	document.getElementById('tglUsulanAkhir').date.setLatestDate(new Date);
+
+	if (!isNaN(parseInt(document.getElementById('tglUsulanAwalInput').value)))
+	{
+		document.getElementById('tglUsulanAwal').date.setSelectedDate(new Date(document.getElementById('tglUsulanAwalInput').value * 1000));
+		document.getElementById('tglUsulanAkhir').date.setEarliestDate(new Date(document.getElementById('tglUsulanAwalInput').value * 1000));
+	}
+	if (!isNaN(parseInt(document.getElementById('tglUsulanAkhirInput').value)))
+	{
+		document.getElementById('tglUsulanAkhir').date.setSelectedDate(new Date(document.getElementById('tglUsulanAkhirInput').value * 1000));
+		document.getElementById('tglUsulanAwal').date.setLatestDate(new Date(document.getElementById('tglUsulanAkhirInput').value * 1000));
+	}
+</script>
+<div class="petunjuk-area">
+    <h4><!-- patTemplate:gtfwgetconfig config="language" name="petunjuk" / -->:</h4>
+    <ul>
+        <li>Klik <img src="images/button-add.gif"> <!-- patTemplate:gtfwgetconfig config="language" name="petunjuk_tambah" / --></li>
+        <li>Klik <img src="images/button-edit.gif"> <!-- patTemplate:gtfwgetconfig config="language" name="petunjuk_edit" / --></li>
+        <li>Klik <img src="images/button-check.gif"> untuk melakukan approval terhadap usulan barang</li>
+        <li>Klik <img src="images/button-detail.gif"> untuk melihat detail usulan barang</li>
+    </ul>
+</div>
+<!-- /patTemplate:tmpl -->
