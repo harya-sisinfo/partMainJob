@@ -4,7 +4,7 @@
  * Controller Unapprove_mutas_antar_unit
  * @created : 2021-08-4 10:05:00
  * @author  : Sriharyo <sriharyo@ugm.ac.id>
- * @company : DSSDI UGM
+ * @company : DSSDI UGM .
 */
 
 class Unapprove_mutas_antar_unit extends UGM_Controller
