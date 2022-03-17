@@ -1,0 +1,10 @@
+<!-- patTemplate:tmpl name="content" -->
+	<!-- patTemplate:tmpl name="combo_jenis" type="condition" conditionvar="COMBO_TUJUAN" -->
+		<!-- patTemplate:sub condition="YES" -->
+			<!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" action="view" name="gudangtujuan" / -->
+		<!-- /patTemplate:sub -->
+		<!-- patTemplate:sub condition="NO" -->
+			<!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" action="view" name="gudangasal" / -->
+		<!-- /patTemplate:sub -->
+	<!-- /patTemplate:tmpl -->
+<!-- /patTemplate:tmpl -->

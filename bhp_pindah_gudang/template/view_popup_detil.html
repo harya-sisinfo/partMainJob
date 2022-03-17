@@ -1,0 +1,88 @@
+<!-- patTemplate:tmpl name="content" -->
+<table width="100%" class="table-details ">
+   <tr class="subhead">
+      <th colspan="2">Detil Mutasi BHP</th>
+   </tr>
+   <tr>
+   	<th width="200px">No. BA</th>
+   	<td>{NOBA}</td>
+   </tr>
+   <tr>
+      <th>Tanggal Mutasi</th>
+      <td><!-- patTemplate:var name="TGLMUTASI" modifier="gtfwindonesiandate" format="long" separator=" " / --></td>
+   </tr>
+   <tr>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="unit_asal" / --></th>
+      <td>{UNITASAL}</td>
+   </tr>
+   <tr>
+      <th>Gudang Asal</th>
+      <td>{GUDANGASAL}</td>
+   </tr>
+   <tr style="display:none;">
+   	<th>No Usulan BHP</th>
+   	<td>{NOUSULANBHP}
+   	</td>
+   </tr>
+   <tr>
+      <th colspan="2">List Barang</th>
+   </tr>
+   <tr>
+      <td colspan="2">
+          <table class="table-common" width="100%">
+              <thead>
+                  <tr>
+                      <th width="2%" style="text-align: center"><b>NO</b></th>
+                      <th width="130px" style="text-align: center"><b>KODE BARANG</b></th>
+                      <th style="text-align: center"><b>NAMA BARANG</b></th>
+                      <th width="160px" style="text-align: center"><b>JUMLAH STOK YG DIMUTASIKAN</b></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <!-- patTemplate:tmpl name="data" type="condition" conditionvar="DATA_EMPTY" -->
+                  <!-- patTemplate:sub condition="YES" -->
+                  <tr>
+                        <td colspan="6" align="center"><em>-- <!-- patTemplate:gtfwgetconfig config="language" name="data_tidak_ditemukan" / --> --</em></td>
+                  </tr>
+                  <!-- /patTemplate:sub -->
+                  <!-- patTemplate:sub condition="NO" -->
+                  <!-- patTemplate:tmpl name="data_item" -->
+                  <tr class='table-common-even'>
+                     <td align="center">{NO}</td>
+                     <td>{KDBRG}</td>
+                     <td>{NAMABRG}</td>
+                     <td align="center">{JUMLAH}</td>
+                  </tr>
+                  <!-- /patTemplate:tmpl -->
+                  <!-- /patTemplate:sub -->
+                  <!-- /patTemplate:tmpl -->
+               </tbody>
+          </table>
+      </td>
+   </tr>
+   </tr>
+   <tr>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="unit_tujuan" / --></th>
+      <td>{UNITTUJUAN}</td>
+   </tr>
+   <tr>
+      <th>Gudang Tujuan</th>
+      <td>{GUDANGTUJUAN}</td>
+   </tr>
+   <tr>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="pic" / --></th>
+      <td>{PIC}</td>
+   </tr>
+   <tr>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="keterangan_tambahan" / --></th>
+      <td>{KETERANGAN}</td>
+   </tr>
+   <tr style="display:none;">
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="file" / --> BA Mutasi Barang</th>
+      <td>
+      	<input type="file" name="uploadFile" /> <i>Ext : *.gif, *.jpg, *.jpeg, *.png, *.bmp</i>
+      	<input type="hidden" name="oldFIle" value="{FILE}" />
+      </td>
+   </tr>
+</table>
+<!-- /patTemplate:tmpl -->

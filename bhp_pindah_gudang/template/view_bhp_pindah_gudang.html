@@ -1,0 +1,111 @@
+<!-- patTemplate:tmpl name="content" -->
+<script type="text/javascript">
+</script>
+<h1>Mutasi BHP</h1><br>
+
+<!-- patTemplate:tmpl name="warning_box" visibility="hidden" -->
+<div class="{NOTEBOX}">
+		{ISI_PESAN}
+</div>
+<!-- /patTemplate:tmpl -->
+
+<form method="POST" action="{URL_SEARCH}" class="dataquest xhr_simple_form dest_subcontent-element" id="filterbox" style="width: 700px;">
+   <table width="100%">
+      <tr class="subhead">
+         <th colspan="2"><h2>Pencarian</h2></th>
+      </tr>
+      <tr>
+         <th width="30%">No. BA</th>
+         <td><input type="text" name="notrans" value="{NOTRANS}">
+         </td>
+      </tr>
+      <tr>
+         <th>Unit / Gudang Asal</th>
+         <td><input type="text" name="unitasal" value="{UNITASAL}">
+         </td>
+      </tr>
+      <tr>
+         <th>Unit / Gudang Tujuan</th>
+         <td><input type="text" name="unittujuan" value="{UNITTUJUAN}"></td>
+      </tr>
+      <tr style="display:none;">
+         <th>Nama Barang</th>
+         <td><input type="text" name="namabarang" value="{NAMABARANG}"></td>
+      </tr>
+      <tr>
+      	<th></th>
+      	<td><input type="submit" name="cari" value="Tampilkan &raquo;"  class="buttonSubmit" />  </td>
+      </tr>
+	</table>
+</form>
+
+<div class="pageBar" style="width:700px">
+   <!-- patTemplate:gtfwrendermodule module="paging" submodule="paging" action="view" name="paging_top"  / -->
+   <div class="toolbar"> 
+      <div style="display:none;"><a href="javascript:void(0)" onclick="bukaPopupCetak('{URL_CETAK}')" title="Cetak" ><img src="images/button-print.gif" alt="Cetak"> <!-- patTemplate:gtfwgetconfig config="language" name="cetak" / --></a>
+      <a href="{URL_EXCEL}" title="Export Excel" ><img src="images/button-tindaklanjuti.gif" alt=""><!-- patTemplate:gtfwgetconfig config="language" name="export_excel" / --></a></div>
+      <a class="xhr dest_subcontent-element" href="{URL_TAMBAH}" title="Tambah" ><img src="images/button-add.gif" alt=""><!-- patTemplate:gtfwgetconfig config="language" name="tambah" / --></a>
+   </div>
+</div>
+<!-- patTemplate::gtfwindonesiandate format="short" separator="-" --> 
+
+<table class="table-common" width="1250px">
+   <tr>
+      <th width="5px" rowspan="2">No</th>
+      <th width="" rowspan="2">TGL Mutasi</th>
+      <th width="" rowspan="2">No. BA</th>
+      <th width="" colspan="2">Asal</th>
+      <th width="" colspan="2">Penerima</th>
+      <th width="" style="display:none" rowspan="2">Nama Barang</th>
+      <th rowspan="2">Jumlah</th>
+      <th rowspan="2">PIC</th>
+      <th width="40px" rowspan="2"><!-- patTemplate:gtfwgetconfig config="language" name="aksi" / --></th>      
+   </tr>
+   <tr>
+      <th width="">Gudang</th>
+      <th width="">Unit</th>
+      <th width="">Gudang</th>
+      <th width="">Unit</th>
+   </tr>
+   <!-- patTemplate:tmpl name="data" type="condition" conditionvar="DATA_EMPTY" -->
+      <!-- patTemplate:sub condition="YES" -->
+   <tr><td colspan="9" align="center"><em>-- <!-- patTemplate:gtfwgetconfig config="language" name="data_kosong" / --> --</em></td></tr>
+      <!-- /patTemplate:sub -->
+      <!-- patTemplate:sub condition="NO" -->
+         <!-- patTemplate:tmpl name="data_item" -->
+   <tr class="{BHP_CLASS_NAME}">
+      <td style="{BHP_CSS}" align="center">{BHP_NOMOR}</td>
+      <td style="{BHP_CSS}" align="center">
+      <!-- patTemplate:var name="BHP_TGL" modifier="gtfwindonesiandate" format="long" separator=" " / -->
+      </td>
+      <td style="{BHP_CSS}" align="center">{BHP_NOTRANS}</td>
+      <td style="{BHP_CSS}">{BHP_GDGASAL}</td>
+      <td style="{BHP_CSS}">{BHP_UNITASAL}</td>
+      <td style="{BHP_CSS}">{BHP_GDGTUJUAN}</td>
+      <td style="{BHP_CSS}">{BHP_UNITTUJUAN}</td>
+      <td style="display:none;">{BHP_NAMABARANG}</td>
+      <td style="{BHP_CSS}" align="center">{BHP_JUMLAH}</td>
+      <td style="{BHP_CSS}" align="left">{BHP_PIC}</td>
+      <td style="{BHP_CSS}" class="links" nowrap>
+         <a onclick="showPopup('{BHP_URL_DETIL}','Detil Mutasi BHP - {BHP_NOTRANS}',800,500)" title="Detail Mutasi BHP">
+            <img src="images/button-detail.gif" alt="Detail"/>
+         </a>
+      </td>
+   </tr>
+         <!-- /patTemplate:tmpl -->
+      <!-- /patTemplate:sub -->
+   <!-- /patTemplate:tmpl -->
+</table>
+
+<br/>
+<div class="petunjuk-area">
+    <h4><!-- patTemplate:gtfwgetconfig config="language" name="petunjuk" / -->:</h4>
+    <ul>
+        <li>Klik <img src="images/button-add.gif"> <!-- patTemplate:gtfwgetconfig config="language" name="petunjuk_tambah" / --></li>
+        <li>Klik <img src="images/button-detail.gif"> untuk melihat detail Mutasi BHP</li>
+        <li><span style="background-color: #F9D54B;">&nbsp;&nbsp;&nbsp;&nbsp;</span> Mutasi BHP Dari Unit Lain</li>
+    </ul>
+</div>
+<script type="text/javascript">
+</script>
+<!-- /patTemplate:tmpl -->

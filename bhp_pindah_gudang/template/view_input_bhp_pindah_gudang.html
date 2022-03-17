@@ -1,0 +1,244 @@
+<!-- patTemplate:tmpl name="content" -->
+<script type="text/javascript">
+function show_pop_up(url,judul){
+	winpopup = showPopup(url,judul, 550, 550);
+}
+
+function popup_barang(){
+	var unitId = document.getElementById('unitasalid').value;
+	//var usulan = document.getElementById('usulanbhpid').value;
+	var combo = document.getElementById('gudangasal');
+	var gudangId = combo.options[combo.selectedIndex].value;
+  var tglMts = $('#tglpindah').val();
+  if(unitId == '' || gudangId == '' || tglMts == '') alert('Pastikan Field Bertanda * Diisi Terlebih Dahulu');
+  else{
+      if(confirm("Tanggal Mutasi, Unit dan Gudang Asal Yang Anda Input Menentukan Jumlah Stok Yang Tersedia\nPerubahan Tanggal/Unit/Gudang Unit Asal Akan Mereset List Barang Yang Sudah Terinput\n\nApakah Anda Yakin Sudah Benar?")){
+        var urlBarang = '{URL_POPUP_BARANG}'+'&unitid='+unitId+'&gudangid='+gudangId/*+'&usulid='+usulan*/+'&tgl='+tglMts;
+        showPopup(urlBarang,'Popup Barang', 550, 550);
+      }
+      else return false;
+  }
+	
+}
+
+function removeAllRows(){
+	   $(".table_rows").remove();
+     $('#detilkosong').show();
+}
+
+function removeItem(childElement){
+	var parentElm = document.getElementById('table-mutasi-list');
+	var childElm = document.getElementById(childElement);
+	parentElm.removeChild(childElm);
+}
+
+// untuk popup barang
+document.getElementById('barangContainer').addItem = function (barangId, barangKode, barangNama, diskripsi, barangBiaya, tdJumlah, jmlStok, ruangId, mstId)
+{
+    if (document.getElementById('barangId_'+barangId)) return true;
+    nomor = this.getElementsByTagName('tr').length;
+
+    id = 'barangId_'+barangId;
+    var tr = document.createElement('tr');
+    tr.setAttribute("id", id);
+    if (nomor % 2 == 0) tr.setAttribute('class', 'table-common-even table_rows');
+    else tr.setAttribute('class', 'table_rows');
+
+    var tdNomor = document.createElement('td');
+    tdNomor.setAttribute("style", 'padding: 2px; text-align: center');
+    tdNomor.innerHTML = nomor;
+
+    var tdBarangKode = document.createElement('td');
+    tdBarangKode.setAttribute("style", 'padding: 2px; text-align: center');
+    tdBarangKode.innerHTML = barangKode + "<input type='hidden' name='barangList[" + id + "][barangKode]' value='" + barangKode + "'><input type='hidden' name='barangList[" + id + "][barangId]' value='" + barangId + "'>";
+
+    var tdBarangNama = document.createElement('td');
+    tdBarangNama.setAttribute("style", 'padding: 2px; text-align: left;');
+    tdBarangNama.innerHTML = barangNama  + "<input type='hidden' name='barangList[" + id + "][barangNama]' value='" + barangNama + "'><input type='hidden' name='barangList[" + id + "][stok]' value='" + jmlStok + "'><input type='hidden' name='barangList[" + id + "][ruangId]' value='" + ruangId + "'><input class='cek' type='hidden' name='barangList[" + id + "][mstId]' value='" + mstId + "'>";
+
+    var tdDiskripsi = document.createElement('td');
+    tdDiskripsi.setAttribute("style", 'padding: 1px; text-align: left');
+    tdDiskripsi.innerHTML = "<input type='text' name='barangList[" + id + "][barangDiskripsi]' value='"+diskripsi+"'>";
+
+    var tdSisa = document.createElement('td');
+	  tdSisa.setAttribute("style", 'padding: 2px; text-align: center');
+	  tdSisa.innerHTML = ""+parseInt(jmlStok)+"";
+
+    var tdBarangr = document.createElement('td');
+    tdBarangr.setAttribute("style", 'padding: 2px; text-align: center');
+    tdBarangr.innerHTML = "<input type='text' size='4' id ='detJumlah["+nomor+"]' name='barangList[" + id +"][jumlah]' value='"+tdJumlah+"' class='detJumlah' onkeypress=\"if (this.old == undefined) this.old = 1\" onkeyup='if(!this.form.numberValidate(this)) return false;': left'><input type='hidden' size='16' id ='detBayar["+nomor+"]' name='barangList[" + id +"][lelangBiaya]' class='detBayar' value='" + barangBiaya + "' onkeyup='hitungTotal()'><input type='hidden' name='asdf' value='"+nomor+"'>";
+
+    var tdDelete = document.createElement('td');
+    tdDelete.setAttribute("class", "links");
+    tdDelete.setAttribute("align", 'center');
+    tdDelete.innerHTML = "<a onClick=\"document.getElementById('"+this.id+"').deleteItem('" + id + "');\" title='Hapus'><img src=\"images/button-delete.gif\" alt=\"Hapus\"/></a>";
+
+    tr.appendChild(tdNomor);
+    tr.appendChild(tdBarangKode);
+    tr.appendChild(tdBarangNama);
+    //tr.appendChild(tdDiskripsi);
+    tr.appendChild(tdSisa);
+    tr.appendChild(tdBarangr);
+    //tr.appendChild(tdBarangt);
+    tr.appendChild(tdDelete);
+    this.appendChild(tr);
+    
+    this.style.display = '';
+    document.getElementById('detilkosong').style.display = 'none';
+    //tdTtl=hitungTotal();
+    return true;
+}
+
+document.getElementById('barangContainer').deleteItem = function (id)
+    {
+        this.removeChild(document.getElementById(id));
+        Obj = this.getElementsByTagName('tr');
+        if (Obj.length == 1) {this.style.display = '';
+            document.getElementById('detilkosong').style.display = '';
+            //document.getElementById('detTotalJumlah').innerHTML = '0,00';
+        }
+        else for (i = 1; i < Obj.length; i++)
+        {
+            Obj[i].setAttribute('class',(i % 2)?'':'table-common-even');
+            Obj[i].firstChild.innerHTML = i;
+            //tdTtl=hitungTotal();
+        }
+    }
+
+var myCalendar = new dhtmlXCalendarObject(["tglpindah"]);
+    myCalendar.hideTime();
+    myCalendar.loadUserLanguage("ina");
+    myCalendar.setDateFormat("%Y-%m-%d");
+
+myCalendar.attachEvent("onClick", function(d){
+    var tgl = $('#tglpindahOld').val()
+    if(myCalendar.getFormatedDate(null,d) !== tgl){
+        $('.table_rows').remove();
+        $('#detilkosong').show();
+        $('#tglpindahOld').val(myCalendar.getFormatedDate(null,d));
+    }
+});
+</script>
+
+<h1>Mutasi BHP</h1>
+
+<div id="warning_box" class="notebox-warning" style="display:none;" onClick="$('#warning_box').fadeOut('slow')" ;>
+</div><br>
+
+<form method="POST" action="{URL_ACTION}" class="xhr_form std_form" id="frmInput" name="frmInput" enctype="multipart/form-data" >
+   <table width="100%" class="table-edit">
+      <tr class="subhead">
+         <th colspan="2">Input Mutasi BHP</th>
+      </tr>
+      <tr>
+      	<th width="200px">No. BA *</th>
+      	<td><input type="text" name="notrans" id="notrans" value="{NOTRANS}" size="30"></td>
+      </tr>
+      <tr>
+         <th>Tanggal Mutasi *</th>
+         <td>
+            <input type="text" name="tglpindah" id="tglpindah" readonly="readonly" size="10" />
+            <input type="hidden" id="tglpindahOld" />
+         </td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="unit_asal" / --> *</th>
+         <td>
+            <input type="unitasal" id="unitasal" value="" readonly size="40">
+            <input type='button' value='...' onclick='javascript: show_pop_up("{URL_POPUP_UNITASAL}","Unit Asal")' />
+         	  <input type="hidden" name="unitasalid" id="unitasalid" value="">
+         </td>
+      </tr>
+      <tr>
+         <th>Gudang Asal *</th>
+         <td>
+         <div id="gudang_asal">
+         	<!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" action="view" name="gudangasal"  / -->
+         </div></td>
+      </tr>
+      <tr style="display:none;">
+      	<th>No Usulan BHP</th>
+      	<td><input type="text" name="nousulanbhp" id="nousulanbhp" value="{NOUSULANBHP}" readonly>   <input type='button' value='...' onclick='javascript: show_pop_up("{URL_POPUP_USULAN}","Usulan BHP")' />
+      		<input type="hidden" name="usulanbhpid" id="usulanbhpid" value="{USULANBHPID}">
+      	</td>
+      </tr>
+      <tr>
+            <th>List Barang *</th>
+            <td>
+                <div class="toolbar">
+                    <a title="Tambah Item"  id="popup_barang" onclick="popup_barang()"><img src="images/button-add.gif" alt=""><!-- patTemplate:gtfwgetconfig config="language" name="tambah" / --></a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <table class="table-common" width="100%">
+                    <tbody id="barangContainer" style="">
+                        <tr>
+                            <th width="2%" style="text-align: center"><b>NO</b></th>
+                            <th width="130px" style="text-align: center"><b>KODE BARANG</b></th>
+                            <th  style="text-align: center"><b>NAMA BARANG</b></th>
+                            <!--<th width=""><!-- patTemplate:gtfwgetconfig config="language" name="deskripsi" / --></th>-->
+                            <th width="100px" style="text-align: center"><b>STOK BARANG</b></th>
+                            <th width="100px" style="text-align: center"><b>JUMLAH STOK YG AKAN DIMUTASIKAN</b></th>
+                            <!--<th width="">SUB TOTAL (IDR)</th>-->
+                            <th width="2%"><b><!-- patTemplate:gtfwgetconfig config="language" name="aksi" / --></b></th>
+                        </tr>
+                    <tbody id="detilkosong" style="">
+                        <tr><td colspan="7" align="center"><em>-- <!-- patTemplate:gtfwgetconfig config="language" name="belum_ada_yang_dipilih" / --> --</em></td></tr>
+                    </tbody>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="unit_tujuan" / --> *</th>
+         <td><input type="unittujuan" id="unittujuan" value="" readonly size="40">   <input type='button' value='...' onclick='javascript: show_pop_up("{URL_POPUP_UNITTUJUAN}","Unit Tujuan");' />
+         	 <input type="hidden" name="unittujuanid" id="unittujuanid" value="">
+         </td>
+      </tr>
+      <tr>
+         <th>Gudang Tujuan *</th>
+         <td>
+         <div id="gudang_tujuan">
+         	<!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" action="view" name="gudangtujuan"  / -->
+         </div></td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="pic" / --> *</th>
+         <td><input type="text" name="pic" value="{PIC}" /></td>
+      </tr>
+      <tr style="display:none;">
+         <th>Nomor BA</th>
+         <td><input type="text" name="bamutasi" value="{BA_MUTASI}" size="30"/></td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="keterangan_tambahan" / --></th>
+         <td><textarea name="keterangan">{KETERANGAN}</textarea></td>
+      </tr>
+      <tr style="display:none;">
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="file" / --> BA Mutasi Barang</th>
+         <td>
+         	<input type="file" name="uploadFile" /> <i>Ext : *.gif, *.jpg, *.jpeg, *.png, *.bmp</i>
+         	<input type="hidden" name="oldFIle" value="{FILE}" />
+         </td>
+      </tr>
+      <tr class="buttons">
+      	<th></th>
+      	<td>
+      	   <input type="button" name="btnsimpan" value="Simpan" class="buttonSubmit" onclick="prepareSubmit();"/>
+           <input type="submit" name="simpan" value="Simpan" id="simpan" style="display: none;" />
+      	   <a href="{URL_BACK}" class="xhr dest_subcontent-element"><input name="btnbatal" type="button" value=" Batal " class="buttonSubmit" /></a>
+        </td>
+      </tr>
+	</table>
+</form>
+<script type="text/javascript">
+function prepareSubmit(){
+  if(confirm("Data Yang Anda Input Akan Disimpan Secara Permanen dan Tidak Dapat Diubah\n\nApakah Anda Yakin Sudah Benar?"))
+    $('#simpan').click();
+  else return false;
+}
+</script>
+<!-- /patTemplate:tmpl -->
