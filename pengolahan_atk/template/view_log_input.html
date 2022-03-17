@@ -1,0 +1,85 @@
+<!-- patTemplate:tmpl name="content" -->
+<h1>{LABEL_TITLE}</h1>
+<h2>{LABEL_SUBTITLE}</h2>
+<br />
+<table class="table-edit" width="100%">
+   <tr>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="gudang" / --></th>
+      <td>{RUANGNAMA}</td>
+   </tr>
+   <tr>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="kode_barang" / --></th>
+      <td>{BARANGKODE}</td>
+   </tr>
+   <tr>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="nama_barang" / --></th>
+      <td>{BARANGNAMA}</td>
+   </tr>
+   <tr>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="jumlah_total" / --></th>
+      <td>{JUMLAHTOTAL}</td>
+   </tr>
+   <tr>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="jumlah_sisa" / --></th>
+      <td>{JUMLAHSISA}</td>
+   </tr>
+</table>
+<br />
+<!-- patTemplate:tmpl name="warning_box" visibility="hidden" -->
+<div class="{CLASS_PESAN}">
+   {ISI_PESAN}
+</div>
+<br/>
+<!-- /patTemplate:tmpl -->
+<form action="{URL_ACTION}" method="POST" name="frmInput" id="frmInput" class="xhr_form dest_subcontent-element">
+<table class="table-edit" width="100%">
+   <tr class="subhead">
+      <th colspan="2">{LABEL_INPUT}</th>
+   </tr>
+   <tr>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="tanggal" / --></th>
+      <td>{LOGATKTGL}</td>
+   </tr>
+   <tr>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="barcode" / --></th>
+      <td>{INVATKDETBARCODE}</td>
+   </tr>
+   <tr>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="tujuan_barang" / --></th>
+      <td>{TUJUANBARANG}</td>
+   </tr>
+   <tr>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="jenis_sirkulasi" / --></th>
+      <td>{LOGATKSTATUS}</td>
+   </tr>
+   <tr>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="jumlah_barang" / --></th>
+      <td><input type='text' name='logAtkJmlBrg' value='{LOGATKJMLBRG}' id="inputJmlBarang"></td>
+   </tr>
+   <tr class="buttons">
+      <th></th>
+      <td><input type="submit" name="btnSimpan" value="Simpan"  class="buttonSubmit" /><input type="submit" name="btnBalik" value="Batal"  class="buttonSubmit" /></td>
+   </tr>
+</table>
+</form>
+<script>
+document.getElementById('inputJmlBarang').oldValue = false;
+document.getElementById('inputJmlBarang').onkeypress = function () {if (this.oldValue === false) this.oldValue = this.value;}
+document.getElementById('inputJmlBarang').onchange = function ()
+{
+   oldValue = this.oldValue;
+   this.oldValue = false;
+   max = {INVATKGUDANGJUMLAH} + {LOGATKJMLBRGOLD};
+   min = {LOGATKJMLBRGOLD} - {TUJUANJML};
+   
+   if (parseInt(this.value) != this.value) this.value = oldValue;
+   if (this.value > max) this.value = max;
+   if (this.value < min) this.value = min;
+   if (this.value < 1) this.value = 1;
+   
+   this.value = parseInt(this.value);
+   return true;
+}
+document.getElementById('inputJmlBarang').onchange();
+</script>
+<!-- /patTemplate:tmpl -->

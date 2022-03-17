@@ -1,0 +1,127 @@
+<!-- patTemplate:tmpl name="content" -->
+<h1>{LABEL_TITLE}</h1>
+<h2>{LABEL_SUBTITLE}</h2>
+<br />
+<table class="table-edit" width="100%">
+   <tr>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="gudang" / --></th>
+      <td>{RUANGNAMA}</td>
+   </tr>
+   <tr>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="kode_barang" / --></th>
+      <td>{BARANGKODE}</td>
+   </tr>
+   <tr>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="nama_barang" / --></th>
+      <td>{BARANGNAMA}</td>
+   </tr>
+   <tr>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="jumlah_total" / --></th>
+      <td>{JUMLAHTOTAL}</td>
+   </tr>
+   <tr>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="jumlah_sisa" / --></th>
+      <td>{JUMLAHSISA}</td>
+   </tr>
+</table>
+<br/>
+<form method="POST" action="{URL_SEARCH}" class="dataquest xhr_simple_form dest_subcontent-element" id="filterbox">
+   <table>
+      <tr>
+         <th colspan="2"><h2><strong>{LABEL_PENCARIAN}</strong></h2></th>
+      </tr>
+      <tr>              
+         <th width="30%"><!-- patTemplate:gtfwgetconfig config="language" name="jenis_sirkulasi" / --></th>
+         <td><!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" action="view" name="jenis_log"  / --></td>
+      </tr>
+      <tr>
+         <th>Periode Awal</th>
+         <td><!-- patTemplate:gtfwrendermodule module="tanggal" submodule="Tanggal" action="view" name="ta" / --></td>
+      </tr>
+      <tr>
+         <th>Periode Akhir</th>
+         <td><!-- patTemplate:gtfwrendermodule module="tanggal" submodule="Tanggal" action="view" name="takh" / --></td>
+      </tr>
+      <tr id="containerComboUnitTujuan">              
+         <th width="30%"><!-- patTemplate:gtfwgetconfig config="language" name="unit_tujuan" / --></th>
+         <td><!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" action="view" name="unit_tujuan"  / --></td>
+      </tr>
+      <tr id="containerComboGudangTujuan">              
+         <th width="30%"><!-- patTemplate:gtfwgetconfig config="language" name="gudang_tujuan" / --></th>
+         <td><!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" action="view" name="gudang_tujuan"  / --></td>
+      </tr>
+      <tr>
+         <th>&nbsp;</th>
+         <td>
+            <input type="submit" name="btncari" value=" Tampilkan &raquo;" class="buttonSubmit"/>
+         </td>
+      </tr>
+   </table>
+</form>
+<!-- patTemplate:tmpl name="warning_box" visibility="hidden" -->
+<div class="{CLASS_PESAN}">
+   {ISI_PESAN}
+</div>
+<!-- /patTemplate:tmpl -->
+<div class="pageBar">
+   <!-- patTemplate:gtfwrendermodule module="paging" submodule="paging" action="view" name="paging_top"  / -->
+   <div class="toolbar"> 
+      <a class="xhr dest_subcontent-element" href="{URL_BACK}" title="Kembali ke halaman List Pengadaan." ><img src="images/prev.gif" alt="" width="16px">
+	  <!-- patTemplate:gtfwgetconfig config="language" name="kembali" / --></a>
+   </div>
+</div>
+<table class="table-common" width="100%">
+   <tr>
+      <th width="5px"><!-- patTemplate:gtfwgetconfig config="language" name="no" / --></th>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="tanggal" / --></th>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="barcode" / --></th>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="jumlah" / --></th>
+      <th>Hrg Satuan</th>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="tujuan_barang" / --> / Penerima</th>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="jenis_sirkulasi" / --></th>
+      <th>Barcode Keuangan</th>
+      <!--<th width="32px"><!-- patTemplate:gtfwgetconfig config="language" name="aksi" / --></th>-->
+   </tr>
+   <!-- patTemplate:tmpl name="data" type="condition" conditionvar="DATA_EMPTY" -->
+      <!-- patTemplate:sub condition="YES" -->
+      <tr><td colspan="8" align="center"><em>-- <!-- patTemplate:gtfwgetconfig config="language" name="data_kosong" / --> --</em></td></tr>
+      <!-- /patTemplate:sub -->
+      <!-- patTemplate:sub condition="NO" -->
+         <!-- patTemplate:tmpl name="data_item" -->
+         <tr class="{CLASS_NAME}">
+            <td align="center">{NOMOR}</td>
+            <td align="center">{LOGATKTGL}</td>
+            <td align="right">{INVATKDETBARCODE}</td>
+            <td align="right">{LOGATKJMLBRG}</td>
+            <td align="right">{HRGSAT}</td>
+            <td align="center">{TUJUANBARANG}</td>
+            <td align="center">{LOGATKSTATUS}</td>
+            <td align="center">{NOSPP}</td>
+            <!--
+				<td class="links">
+               <a class="xhr dest_subcontent-element" href="{URL_EDIT}" title="Ubah">
+                  <img src="images/button-edit.gif" alt="Ubah"/>
+               </a>
+            </td>
+				-->
+         </tr>
+         <!-- /patTemplate:tmpl -->
+      <!-- /patTemplate:sub -->
+   <!-- /patTemplate:tmpl -->
+</table>
+<script language="javascript" type="text/javascript">
+document.getElementById('comboLogStatus').onchange = function ()
+{
+   unit = document.getElementById('containerComboUnitTujuan');
+   gudang = document.getElementById('containerComboGudangTujuan');
+   
+   unit.style.display = 'none';
+   gudang.style.display = 'none';
+   
+   if (this.value == 'Mutasi Ke Unit Lain') unit.style.display = '';
+   else if (this.value == 'Mutasi Ke Gudang Lain') gudang.style.display = '';
+}
+
+document.getElementById('comboLogStatus').onchange();
+</script>
+<!-- /patTemplate:tmpl -->

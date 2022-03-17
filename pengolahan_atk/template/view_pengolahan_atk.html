@@ -1,0 +1,127 @@
+<!-- patTemplate:tmpl name="content" -->
+<style>
+    .table-common-warning td {
+        background-color:#FF8080 !important;
+        font-size:12px;
+        color:#000;
+    }
+</style>
+<h1>{LABEL_TITLE}</h1>
+<br/>
+<!-- patTemplate:tmpl name="warning_box" visibility="hidden" -->
+<div class="{CLASS_NAME}">
+    {ISI_PESAN}
+</div>
+<br/>
+<!-- /patTemplate:tmpl -->
+<form method="POST" action="{URL_ACTION}" class="dataquest xhr_simple_form dest_subcontent-element" id="filterbox" >
+    <table width="100%">
+        <tr class="subhead">
+            <th colspan="2"><h2><strong>{LABEL_SUBTITLE}</strong></h2></th>
+        </tr>
+        <tr>
+            <th><!-- patTemplate:gtfwgetconfig config="language" name="nama_gudang" / --></th>
+            <td>
+                <input class="srch" type="text" name="gdgNama" id="roomLbl" value="{GDGNAMA}" size="30" readonly="readonly">
+                <input class="srch" type="hidden" name="gudang" id="roomId" value="{GUDANG}">
+                <input type="button" value="..." onclick='showPopup("{URL_POPUP_RUANG}","Pilih Gudang",700,550);'> 
+            </td>
+        </tr>
+        <tr>
+            <th>Nama / <!-- patTemplate:gtfwgetconfig config="language" name="kode_barang" / --></th>
+            <td><input class="srch" type="text" name="nama_barang_atk" value="{NAMA_BARANG_ATK}" size="30" /></td>
+        </tr>
+        <tr>
+            <th><!-- patTemplate:gtfwgetconfig config="language" name="status_stok_barang" / --></th>
+            <td><!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" action="view" name="stock_barang"  / --></td>
+        </tr>
+
+        <tr>
+            <th></th>
+            <td>
+                <input type="submit" name="cari" value="&nbsp;&nbsp;Tampilkan &raquo;&nbsp;&nbsp;"  class="buttonSubmit" />
+                <input type="button" name="btnreset" value="&nbsp;&nbsp;Reset&nbsp;&nbsp;" class="buttonSubmit" onclick="resetField();"/>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<div class="pageBar">
+    <!-- patTemplate:gtfwrendermodule module="paging" submodule="paging" action="view" name="paging_top"  / -->
+    <div class="toolbar">
+        <a href="javascript:void(0)" onclick="bukaPopupCetak('{URL_CETAK}')" title="Cetak" ><img src="images/button-print.gif" alt="Cetak"> Cetak Stok BHP</a>
+        <a class="xhr dest_subcontent-element" style="display: none;" href="{URL_TAMBAH}" title="Atur Stok Minimal" ><img src="images/button-add.gif" alt="">Atur Stok Minimal</a>
+        <a class="xhr dest_subcontent-element" href="{URL_PEMELIHARAAN}" title="Pemeliharaan BHP" ><img src="images/button-add.gif" alt="">Penambahan BHP</a>
+    </div>
+</div>
+
+<table class="table-common" width="1041px">
+    <tr>
+        <th width="5px"><!-- patTemplate:gtfwgetconfig config="language" name="no"/ --></th>
+        <th><!-- patTemplate:gtfwgetconfig config="language" name="kode_barang" / --></th>
+        <th><!-- patTemplate:gtfwgetconfig config="language" name="nama_barang" / --></th>
+        <th><!-- patTemplate:gtfwgetconfig config="language" name="merk" / --></th>
+        <th><!-- patTemplate:gtfwgetconfig config="language" name="jml_stok" / --></th>
+        <th><!-- patTemplate:gtfwgetconfig config="language" name="stok_minimal" / --></th>
+        <th><!-- patTemplate:gtfwgetconfig config="language" name="lokasi_gudang" / --></th>
+        <th><!-- patTemplate:gtfwgetconfig config="language" name="unit_kerja" / --></th>
+        <th width="63px"><!-- patTemplate:gtfwgetconfig config="language" name="aksi"/ --></th>
+    </tr>
+    <!-- patTemplate:tmpl name="data" type="condition" conditionvar="DATA_EMPTY" -->
+    <!-- patTemplate:sub condition="YES" -->
+    <tr><td colspan="9" align="center"><em>{NOTIF}</em></td></tr>
+    <!-- /patTemplate:sub -->
+    <!-- patTemplate:sub condition="NO" -->
+    <!-- patTemplate:tmpl name="data_item" -->
+    <tr class="{PB_CLASS_NAME}">
+        <td align="center">{PB_NO}</td>
+        <td align="left">{PB_KODE_BARANG}</td>
+        <td>{PB_NAMA_BARANG}</td>
+        <td align="left">{PB_MERK}</td>
+        <td align="right">{PB_JUMLAH_STOK}</td>
+        <td align="center">{PB_STOK_MINIMAL}</td>
+        <td align="left">{PB_LOKASI_GUDANG}</td>
+        <td align="left">{PB_UNIT}</td>
+        <td class="links" nowrap>
+            <a class="xhr dest_subcontent-element" href="{PB_URL_EDIT}" title="Update Setting Stok">
+                <img src="images/button-edit.gif" alt="Update Setting Stok"/>
+            </a>
+            <a class="xhr dest_subcontent-element" href="{PB_URL_LOG}" title="Log Sirkulasi Barang">
+                <img src="images/button-jam.gif" alt="Log Sirkulasi Barang"/>
+            </a>
+            <a class="xhr dest_subcontent-element" style="display:{PB_DISPLAY}" href="{PB_URL_PENYESUAIAN}" title="Adjustmen">
+                <img src="images/button-tindaklanjuti.gif" alt="Adjustmen"/>
+            </a>
+        </td>
+    </tr>
+    <!-- /patTemplate:tmpl -->
+    <!-- /patTemplate:sub -->
+    <!-- /patTemplate:tmpl -->
+</table>
+<br/>
+<div class="petunjuk-area">
+    <h4><!-- patTemplate:gtfwgetconfig config="language" name="petunjuk" / -->:</h4>
+    <ul>
+        <li style="display: none;">Klik <img src="images/button-add.gif"><b>Atur Stok Minimal</b> untuk menentukan jumlah stok minimal dalam gudang</li>
+        <li>Klik <img src="images/button-add.gif"> <b>Penambahan BHP</b> untuk menambah BHP ke gudang</li>
+        <li>Klik <img src="images/button-edit.gif"> untuk mengubah jumlah stok minimal</li>
+        <li>Klik <img src="images/button-jam.gif"/> untuk melihat log sirkulasi barang</li>
+        <li>Klik <img src="images/button-tindaklanjuti.gif"> untuk menyesuaikan jumlah stok dalam gudang</li>
+        <li>Klik <img src="images/button-print.gif"> <!-- patTemplate:gtfwgetconfig config="language" name="petunjuk_cetak" / --></li>
+
+        <li><div style="margin: 10px 0px 0px 10px;"><div style="padding:0px; margin: 0px; width:20px; color: #FF8080; background-color:#FF8080; border:#D1C698 1px solid; float: left;">I</div>&nbsp; = BHP dalam gudang kurang dari stok minimal</div></li>
+    </ul>
+</div>
+<script language="javascript" type="text/javascript">
+    function bukaPopupCetak (url)
+    {
+        var winpopup = window.open(url, "_blank", "width=800,height=500,resizable=yes,scrollbars=yes,right=0;center");
+        winpopup.focus();
+    }
+
+    resetField = function(){
+        $('.srch').val('');
+        $('#roomId').val('all');
+    }
+</script>
+<!-- /patTemplate:tmpl -->

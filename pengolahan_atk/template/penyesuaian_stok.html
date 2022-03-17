@@ -1,0 +1,101 @@
+<!-- patTemplate:tmpl name="content" -->
+<script name="javaScript" >
+	/*function ambilBarang(obj){
+		//author Galih
+      
+      jumlah = parseInt(obj.value);
+      if (isNaN(jumlah)) jumlah = 0;
+		{JUMLAH_SISA}
+      if (jumlah > sisa) jumlah = sisa;
+		sisa = sisa - jumlah;
+      if (sisa < 0)
+      {
+         jumlah = jumlah + sisa;
+         sisa = 0;
+      }
+		document.getElementById('sisa').value = sisa;
+      obj.value = jumlah;
+	}*/
+</script>
+<h1>Manajemen Pengolahaan BHP Kantor</h1>
+<br/>
+<!-- patTemplate:tmpl name="warning_box" visibility="hidden" -->
+<div class="{CLASS_PESAN}">
+   {ISI_PESAN}
+</div>
+<br/>
+<!-- /patTemplate:tmpl -->
+<form method="POST" action="{SUBMIT_URL}" class="xhr_form std_form dest_subcontent-element" id="frmInput" name="frmInput" >
+   <table width="100%" class="table-edit">
+      <tr class="subhead">
+         <th colspan="2">Penyesuaian Stok</th>
+      </tr>
+      <tr>
+         <th width="200"><!-- patTemplate:gtfwgetconfig config="language" name="nomor_barcode" / --></th>
+         <td>{BARCODE}
+         <input type="hidden" name="barcode" id="barcode" value="{BARCODE}"/>
+         </td>
+      </tr>
+		<tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="gudang" / --></th>
+         <td>{GUDANG_NAMA}
+         	<input type="hidden" name="gudang" id="gudang" value="{GUDANG}"/>
+         </td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="kode_barang" / --></th>
+         <td>{KODE_BARANG}</td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="nama_barang" / --></th>
+         <td>{NAMA_BARANG}
+				<input type='hidden' name='nama_barang' value='{NAMA_BARANG}' id='nama_barang' size="30"/>
+				<input type='hidden' name='barang_id' value='{BARANG_ID}' id='barang_id' size="30"/>
+			</td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="label_barang" / --></th>
+         <td>{LABEL_BARANG}<input type='hidden' id='label_barang' name='label_barang' value='{LABEL_BARANG}' size="30" readonly /></td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="merk_barang" / --></th>
+         <td>{MERK_BARANG}<input type='hidden' name='merk_barang' id='merk_barang' value='{MERK_BARANG}' size="30" readonly /></td>
+      </tr>
+		<tr>
+         <th>Jumlah Sisa Barang</th>
+         <td><input type='text' name='sisa_barang' value='{SISA_BARANG}' size="5" id="sisa" style="text-align:right;"/> {SATUANBRGNAMA} *
+			<input type='hidden' name='sisa_barang_lama' value='{SISA_BARANG_LAMA}'/>
+			</td>
+      </tr>
+      <tr>
+         <th>Total Sisa Barang (Rp)</th> 
+         <td>{INVATKBIAYANOMINALA}<input type='hidden' name='invAtkBiayaNominal' value='{INVATKBIAYANOMINAL}' size="30" class="gvFloat"/> </td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="spesifikasi" / --></th>
+         <td>{SPESIFIKASI}<input type='hidden' name="spesifikasi" id='spesifikasi' value='{SPESIFIKASI}'></td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="status_pemeliharaan" / --></th>
+         <td>
+         	{STATUS_PEMELIHARAAN}
+         </td>
+      </tr>
+		<tr>
+			<th><!-- patTemplate:gtfwgetconfig config="language" name="keterangan_tambahan" / --></th>
+			<td><textarea name="keterangan">{KETERANGAN}</textarea></td>
+		</tr>
+      <tr class="buttons">
+      	<th></th>
+      	<td>
+				<input type="submit" name="btnsimpan" value="Simpan"  class="buttonSubmit" />
+				<input type="submit" name="btnbalik" value="Batal"  class="buttonSubmit" />
+      	</td>
+      </tr>
+	</table>
+</form>
+
+<script>
+//ambilBarang(document.getElementById('jumlah_barang'));
+</script>
+<!-- /patTemplate:tmpl -->

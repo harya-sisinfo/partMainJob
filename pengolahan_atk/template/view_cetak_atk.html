@@ -1,0 +1,44 @@
+<!-- patTemplate:tmpl name="content" -->
+<style>
+.table-common-warning td {
+	background-color:#c0c0c0 !important;
+	font-size:12px;
+	color:#000;
+}
+.table-common td{ font-size:12px; }
+.table-common th{ font-size:12px; text-transform: uppercase;}
+</style>
+
+<h1>PENGELOLAAN BHP KANTOR</h1>
+<table class="table-common" width="100%">
+   <tr>
+      <th width="5px">NO</th>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="kode_barang" / --></th>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="nama_barang" / --></th>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="merk" / --></th>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="jml_stok" / --></th>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="stok_minimal" / --></th>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="lokasi_gudang" / --></th>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="unit_kerja" / --></th>
+   </tr>
+   <!-- patTemplate:tmpl name="data" type="condition" conditionvar="DATA_EMPTY" -->
+      <!-- patTemplate:sub condition="YES" -->
+   <tr><td colspan="8" align="center"><em>-- <!-- patTemplate:gtfwgetconfig config="language" name="data_kosong"/ --> --</em></td></tr>
+      <!-- /patTemplate:sub -->
+      <!-- patTemplate:sub condition="NO" -->
+         <!-- patTemplate:tmpl name="data_item" -->
+   <tr class="{PB_CLASS_NAME}">
+      <td align="center">{PB_NO}</td>
+      <td align="left">{PB_KODE_BARANG}</td>
+      <td>{PB_NAMA_BARANG}</td>
+      <td align="left">{PB_MERK}</td>
+      <td align="center">{PB_JUMLAH_STOK}</td>
+      <td align="center">{PB_STOK_MINIMAL}</td>
+      <td align="left">{PB_LOKASI_GUDANG}</td>
+      <td align="left">{PB_UNIT}</td>
+   </tr>
+         <!-- /patTemplate:tmpl -->
+      <!-- /patTemplate:sub -->
+   <!-- /patTemplate:tmpl -->
+</table>
+<!-- /patTemplate:tmpl -->

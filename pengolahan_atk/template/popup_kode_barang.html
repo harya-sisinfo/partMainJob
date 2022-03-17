@@ -1,0 +1,90 @@
+<!-- patTemplate:tmpl name="content" -->
+<script language="javascript" type="text/javascript">
+	function setParent(barcode, gudang, kode, nama, label, merk, sisa, spec) {
+		document.getElementById('barcode').value = barcode;
+		document.getElementById('gudang').value = gudang;
+		document.getElementById('kode_barang').value = kode;
+		document.getElementById('nama_barang').value = nama;
+		document.getElementById('label_barang').value = label;
+		document.getElementById('merk_barang').value = merk;
+		document.getElementById('sisa').value = sisa;
+		document.getElementById('spesifikasi').value = spec;
+		document.getElementById('spesifikasi').value = spec;
+		popupClose();
+	}
+</script>
+<h1>Kode Barang Habis Pakai</h1>
+<br />
+<form method="POST" action="{URL_SEARCH}" class="dataquest xhr_simple_form dest_popup-subcontent" id="filterboxpopup">
+   <table>
+      <tr>
+         <th colspan="2"><h2>Pencarian</h2></th>
+      </tr>
+      <tr>              
+         <th width="30%">
+				Nama Barang
+			</th>
+         <td>
+				<input type="text" name="nama" value="{NAMA}" size="30"/>
+         </td>
+      </tr>
+		<tr>              
+         <th width="30%">
+				Gudang
+			</th>
+         <td>
+            <!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" action="view" name="gudang_id"  / -->
+         </td>
+      </tr>
+      <tr>
+         <th>&nbsp;</th>
+         <td>
+            <input type="submit" name="btncari" value=" Tampilkan &raquo;" class="buttonSubmit"/>
+         </td>
+      </tr>
+   </table>
+</form>
+<br />
+<div class="pageBar">
+<!-- patTemplate:gtfwrendermodule module="paging" submodule="paging" action="view" name="paging_top"  / -->
+</div>
+<table class="table-common" width="100%">
+   <tr>
+      <th width="5px">
+			<!-- patTemplate:gtfwgetconfig config="language" name="no" / -->
+		</th>
+      <th width="100px">
+			Kode Barang
+		</th>
+      <th>
+			<!-- patTemplate:gtfwgetconfig config="language" name="nama" / -->
+		</th>
+		<th>
+			<!-- patTemplate:gtfwgetconfig config="language" name="gudang" / -->
+		</th>
+      <th width="32px">
+			<!-- patTemplate:gtfwgetconfig config="language" name="aksi" / -->
+		</th>
+   </tr>
+   <!-- patTemplate:tmpl name="data" type="condition" conditionvar="DATA_EMPTY" -->
+      <!-- patTemplate:sub condition="YES" -->
+      <tr>
+			<td colspan="5" align="center"><em>-- <!-- patTemplate:gtfwgetconfig config="language" name="data_kosong" / --> --</em></td>
+		</tr>
+      <!-- /patTemplate:sub -->
+      <!-- patTemplate:sub condition="NO" -->
+         <!-- patTemplate:tmpl name="data_item" -->
+         <tr class="{CLASS_NAME}">
+            <td align="center">{NUMBER}</td>
+            <td align="center">{KODE_BARANG}</td>
+            <td>{NAMA_BARANG}</td> 
+				<td>{RUANG_NAMA}</td> 
+            <td class="links">
+               <a title="Pilih" href="javascript:void(0)" onclick="javascript: setParent('{BARCODE}', '{GUDANG_ID}', '{KODE_BARANG}', '{NAMA_BARANG}', '{LABEL_BARANG}', '{MERK_BARANG}', '{SISA_BARANG}', '{SPESIFIKASI}')"><img src="images/button-check.gif" alt="pilih" /></a> 
+            </td>
+         </tr>
+         <!-- /patTemplate:tmpl -->
+      <!-- /patTemplate:sub -->
+   <!-- /patTemplate:tmpl -->
+</table>
+<!-- /patTemplate:tmpl -->

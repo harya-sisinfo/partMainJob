@@ -1,0 +1,172 @@
+<!-- patTemplate:tmpl name="content" -->
+<script name="javaScript" >
+	var unitStatus = 'show';
+	var gudangStatus = 'show';
+
+	function enterKey(e){
+
+		var keynum
+
+		if(e.which) // Netscape/Firefox/Opera
+		{
+			keynum = e.which
+		}
+		else if(window.event) // IE
+		{
+			keynum = e.keyCode
+		}
+
+		//button click
+		if (keynum == 13){
+			GtfwAjax.replaceContentWithUrl('subcontent-element', '<!-- patTemplate:gtfwgeturl module="pengolahan_atk" sub="penambahanAtk" action="view" type="html" htmlentities="no" / -->&ascomponent=1&barcode=' + document.frmInput.barcode.value +'&gudangId='+document.frmInput.gudang.value);
+         return false;
+		}
+      return true;
+	}
+
+	function setGuangUnit(id){
+
+		if(id == 'Mutasi Ke Unit Lain'){
+			if(gudangStatus!='hide'){
+				$("tr").filter("#gudang").hide();
+				gudangStatus='hide';
+			}
+			if(unitStatus!='show'){
+				$("tr").filter("#unit").show();
+				unitStatus='show';
+			}
+		}else if(id == 'Mutasi Ke Gudang Lain'){
+			if(unitStatus!='hide'){
+				$("tr").filter("#unit").hide();
+				unitStatus='hide';
+			}
+			if(gudangStatus!='show'){
+				$("tr").filter("#gudang").show();
+				gudangStatus='show';
+			}
+		}else{
+			if(unitStatus!='hide'){
+				$("tr").filter("#unit").hide();
+				unitStatus='hide';
+			}
+			if(gudangStatus!='hide'){
+				$("tr").filter("#gudang").hide();
+				gudangStatus='hide';
+			}
+		}
+
+	}
+
+	function show_pop_up (url,judul)
+	{
+		winpopup = showPopup(url,judul, 700, 550);
+		//winpopup.focus();
+	}
+
+   dhtmlXCalendarObject.prototype.langData["ina"] = {
+   dateformat: '%Y-%m-%d',
+   monthesFNames: ["Januari","Februari","Maret","April","Mei","Juni",
+              "Juli","Agustus","September","Oktober","November","Desember"],
+   monthesSNames: ["Jan","Feb","Mat","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"],
+   daysFNames: ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"],
+   daysSNames: ["Min","Sen","Sel","Rab","Kam","Jum","Sab"],
+   weekstart: 7,
+   weekname: "Min" 
+   };
+
+   var myCalendar = new dhtmlXCalendarObject(["tgl_beli"]);
+   myCalendar.hideTime();
+   myCalendar.loadUserLanguage("ina");
+   myCalendar.setDateFormat("%Y-%m-%d");
+</script>
+<h1>{JUDUL}</h1>
+<br/>
+<!-- patTemplate:tmpl name="warning_box" visibility="hidden" -->
+<div class="{CLASS_PESAN}">
+   {ISI_PESAN}
+</div>
+<br/>
+<!-- /patTemplate:tmpl -->
+<form method="POST" action="{SUBMIT_URL}" class="xhr_form std_form dest_subcontent-element" id="frmInput" name="frmInput" >
+   <table width="100%" class="table-edit">
+      <tr class="subhead">
+         <th colspan="2">{JUDUL}</th>
+      </tr>
+      <tr>
+         <th width="200"><!-- patTemplate:gtfwgetconfig config="language" name="barcode_kuitansi" / --></th>
+         <td><input type="text" name="barcodekeu" id="barcodekeu" value="{BARCODEKEU}" /> *</td>
+      </tr>
+      <tr>
+         <th width="200"><!-- patTemplate:gtfwgetconfig config="language" name="nomor_barcode" / --></th>
+         <td>
+         <input type="text" name="barcode" id="barcode" value="{BARCODE}" onkeypress="return enterKey(event);"/>
+         </td>
+      </tr>
+      <tr style="display:none;"><th>No. Usulan BHP</th><td><input type="text" name="nousulanbhp" id="nousulanbhp" value="" readonly><input type="hidden" name="usulanbhpid" id="usulanbhpid" value="">   <input type='button' value='...' onclick='javascript: show_pop_up("{URL_POPUP_USULAN_BHP}","Popup Usulan BHP")'/></td></tr>
+		<tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="gudang" / --></th>
+         <td>
+            <input type="text" name="gudangNama" id="roomLbl" readonly="readonly" value="{GUDANGNAMA}" size="45">
+            <input class="srch" type="hidden" name="gudang" id="roomId" value="{GUDANG}">
+            <input type="button" value="..." onclick='showPopup("{URL_POPUP_RUANG}","Pilih Gudang",700,550);'> *
+         </td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="kode_barang" / --></th>
+         <td>
+         	<input type='text' name='kode_barang' id='kode_barang' value='{KODE_BARANG}' size="30" readonly />
+         	<input type='hidden' name='barangId' id='kode_barang_id' value='{BARANGID}' size="30" readonly />
+				<input type='button' value='...' onclick='javascript: show_pop_up("{URL_POPUP_KODE_BARANG}","Popup Kode Barang")'/> *
+          </td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="nama_barang" / --></th>
+         <td><input type='text' name='nama_barang' value='{NAMA_BARANG}' id='nama_barang' size="30" readonly /></td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="label_barang" / --></th>
+         <td><input type='text' id='label_barang' name='label_barang' value='{LABEL_BARANG}' size="30" /></td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="merk_barang" / --></th>
+         <td><input type='text' name='merk_barang' id='merk_barang' value='{MERK_BARANG}' size="30" /></td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="tanggal_pembelian" / --></th>
+         <td><input type='text' name='tgl_beli' id='tgl_beli' value='{TGLBELI}' size="10" readonly="readonly" /> *</td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="jumlah_barang" / --></th>
+         <td><input type='text' name='jumlah_barang' value='{JUMLAH_BARANG}' size="5" id="jumlah_barang" style="text-align:right" /> <!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" action="view" name="satuan_barang"  / --> * </td>
+      </tr>
+      <tr>
+         <th>
+            <b>Total Barang (Rp)</b>
+         </th>
+         <td>
+            <input type="text" name="invAtkBiayaNominal" value="{INVATKBIAYANOMINAL}" size="20" maxlength="20" class="gvFloat" /> *
+         </td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="spesifikasi" / --></th>
+         <td><textarea name="spesifikasi" id='spesifikasi'>{SPESIFIKASI}</textarea></td>
+      </tr>
+		<tr>
+			<th><!-- patTemplate:gtfwgetconfig config="language" name="keterangan_tambahan" / --></th>
+			<td><textarea name="keterangan">{KETERANGAN}</textarea></td>
+		</tr>
+
+      <tr class="buttons">
+      	<th></th>
+      	<td>
+				<input type="submit" name="btnsimpan" value="Simpan"  class="buttonSubmit" />
+				<input type="submit" name="btnbalik" value="Batal"  class="buttonSubmit" />
+      	</td>
+      </tr>
+	</table>
+</form>
+
+<script>
+setGuangUnit('');
+</script>
+<!-- /patTemplate:tmpl -->

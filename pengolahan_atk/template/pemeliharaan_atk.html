@@ -1,0 +1,202 @@
+<!-- patTemplate:tmpl name="content" -->
+<script name="javaScript" >
+	function ambilBarang(obj){
+		//author Galih
+      
+      jumlah = parseInt(obj.value);
+      if (isNaN(jumlah)) jumlah = 0;
+		{JUMLAH_SISA}
+      if (jumlah > sisa) jumlah = sisa;
+		sisa = sisa - jumlah;
+      if (sisa < 0)
+      {
+         jumlah = jumlah + sisa;
+         sisa = 0;
+      }
+		document.getElementById('sisa').value = sisa;
+      obj.value = jumlah;
+	}
+   
+	var unitStatus = 'show';
+	var gudangStatus = 'show';
+	
+	function enterKey(e){
+		
+		var keynum
+
+		if(e.which) // Netscape/Firefox/Opera
+		{
+			keynum = e.which
+		}
+		else if(window.event) // IE
+		{
+			keynum = e.keyCode
+		}
+		
+		//button click
+		if (keynum == 13){
+			GtfwAjax.replaceContentWithUrl('subcontent-element', '<!-- patTemplate:gtfwgeturl module="pengolahan_atk" sub="pemeliharaanAtk" action="view" type="html" htmlentities="no" / -->&ascomponent=1&barcode=' + document.frmInput.barcode.value +'&gudangId='+document.frmInput.gudang.value);
+         return false;
+		}
+      return true;
+	}
+		
+	function setGuangUnit(id){
+		
+		if(id == 'Mutasi Ke Unit Lain'){
+			if(gudangStatus!='hide'){
+				$("tr").filter("#gudang").hide();
+				gudangStatus='hide';
+			}
+			if(unitStatus!='show'){
+				$("tr").filter("#unit").show();
+				unitStatus='show';
+			}
+		}else if(id == 'Mutasi Ke Gudang Lain'){
+			if(unitStatus!='hide'){
+				$("tr").filter("#unit").hide();
+				unitStatus='hide';
+			}
+			if(gudangStatus!='show'){
+				$("tr").filter("#gudang").show();
+				gudangStatus='show';
+			}
+		}else{
+			if(unitStatus!='hide'){
+				$("tr").filter("#unit").hide();
+				unitStatus='hide';
+			}
+			if(gudangStatus!='hide'){
+				$("tr").filter("#gudang").hide();
+				gudangStatus='hide';
+			}
+		}
+		
+	}
+	
+	function show_pop_up (url)
+	{
+		winpopup = showPopup(url, "", 550, 550);
+		//winpopup.focus();
+	}
+</script>
+<h1>{LABEL_TITLE}</h1>
+<br/>
+<!-- patTemplate:tmpl name="warning_box" visibility="hidden" -->
+<div class="{CLASS_PESAN}">
+   {ISI_PESAN}
+</div>
+<br/>
+<!-- /patTemplate:tmpl -->
+<form method="POST" action="{SUBMIT_URL}" class="xhr_form std_form dest_subcontent-element" id="frmInput" name="frmInput" >
+   <table width="100%" class="table-edit">
+      <tr class="subhead">
+         <th colspan="2">{JUDUL}</th>
+      </tr>
+      <tr>
+         <th width="200"><!-- patTemplate:gtfwgetconfig config="language" name="nomor_barcode" / --></th>
+         <td>
+         <input type="text" name="barcode" id="barcode" value="{BARCODE}" onkeypress="return enterKey(event);" /> *
+         </td>
+      </tr>
+		<tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="gudang" / --></th>
+         <td>
+         	<!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" action="view" name="gudang"  / -->
+         </td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="kode_barang" / --></th>
+         <td>
+         	<input type='text' name='kode_barang' id='kode_barang' value='{KODE_BARANG}' id='kode_barang' size="30" readonly />
+				<input type='button' value='...' onclick='javascript: show_pop_up("{URL_POPUP_KODE_BARANG}")'/>
+          </td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="nama_barang" / --></th>
+         <td><input type='text' name='nama_barang' value='{NAMA_BARANG}' id='nama_barang' size="30" readonly /></td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="label_barang" / --></th>
+         <td><input type='text' id='label_barang' name='label_barang' value='{LABEL_BARANG}' size="30" readonly /></td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="merk_barang" / --></th>
+         <td><input type='text' name='merk_barang' id='merk_barang' value='{MERK_BARANG}' size="30" readonly /></td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="jumlah_barang" / --></th> 
+         <td><input type='text' name='jumlah_barang' value='{JUMLAH_BARANG}' size="30" id="jumlah_barang" onkeyup="ambilBarang(this)" /> * </td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="sisa_barang" / --></th>
+         <td><input type='text' name='sisa_barang' value='{SISA_BARANG}' size="30" id="sisa" readonly /></td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="spesifikasi" / --></th>
+         <td><textarea name="spesifikasi" id='spesifikasi' readonly>{SPESIFIKASI}</textarea></td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="status_pemeliharaan" / --></th>
+         <td>
+         	<!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" action="view" name="status_pemeliharaan"  / -->
+         </td>
+      </tr>
+		<tr id="unit" style="width:100%">
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="unit_tujuan" / --></th>
+         <td>
+         	<!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" action="view" name="unit"  / -->
+         </td>
+      </tr>
+      <tr id="gudang">
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="gudang_tujuan" / --></th>
+         <td>
+         	<!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" action="view" name="gudang_tujuan"  / -->
+         </td>
+      </tr>
+      <tr>
+      	<th>Tanggal Penambahan
+      	</th>
+      	<td><!-- patTemplate:gtfwrendermodule module="tanggal" submodule="tanggal" action="view" name="tanggal_mutasi"  / -->
+      	</td>
+      </tr>
+		<tr>
+			<th><!-- patTemplate:gtfwgetconfig config="language" name="keterangan_tambahan" / --></th>
+			<td><textarea name="keterangan">{KETERANGAN}</textarea></td>
+		</tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="file" / --></th>
+         <td>
+            <input type="file" name="logAtkFile">
+         </td>
+      </tr>
+      <tr class="buttons">
+      	<th></th>
+      	<td>
+				<input type="submit" name="btnsimpan" value="Simpan"  class="buttonSubmit" />
+				<input type="submit" name="btnbalik" value="Batal"  class="buttonSubmit" />
+      	</td>
+      </tr>
+	</table>
+</form>
+
+<script>
+function show_pop_up (url)
+	{
+		winpopup = showPopup(url, "", 550, 550);
+		//winpopup.focus();
+	}
+
+document.forms['frmInput']['gudang'].onchange = function (e)
+{
+   if (this.form['barcode'].value != '')
+   {
+      e.which = 13;
+      enterKey(e);
+   }
+}
+
+setGuangUnit('');
+ambilBarang(document.getElementById('jumlah_barang'));
+</script>
+<!-- /patTemplate:tmpl -->
