@@ -1,0 +1,116 @@
+<!-- patTemplate:tmpl name="content" -->
+<form method="POST" action="{URL_SEARCH}" class="dataquest xhr_simple_form dest_popup-subcontent" id="filterboxpopup">
+   <table>
+      <tr>
+         <th colspan="2"><h2>Pencarian</h2></th>
+      </tr>
+      <tr style="display:none;">              
+         <th width="30%">Golongan</th>
+         <td><!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" action="view" name="cari_golongan"  / --></td>
+      </tr>
+      <tr>              
+         <th width="30%">Bidang Barang</th>
+         <td>
+            <input type="hidden" name="CARI_BIDANG_ID" value="{CARI_BIDANG_ID}" id="POP_UP_BIDANG_ID"/>
+            <input type="text" name="CARI_BIDANG_NAME" value="{CARI_BIDANG_NAME}" size="30" id="POP_UP_BIDANG_NAME" readonly />
+            <input type='button' value='...' onClick='javascript: pop_up(1,"{URL_POP_UP_BIDANG}")'>
+         </td>
+      </tr>
+      <tr>              
+         <th width="30%">Kelompok Barang</th>
+         <td>
+            <input type="hidden" name="CARI_KELOMPOK_ID" value="{CARI_KELOMPOK_ID}" id="POP_UP_KELOMPOK_ID"/>
+            <input type="text" name="CARI_KELOMPOK_NAME" value="{CARI_KELOMPOK_NAME}" size="30" id="POP_UP_KELOMPOK_NAME" readonly />
+            <input type='button' value='...' onClick='javascript: pop_up(2,"{URL_POP_UP_KELOMPOK}")'>
+         </td>
+      </tr>
+      <tr>              
+         <th width="30%">Sub Kelompok</th>
+         <td>
+            <input type="hidden" name="CARI_SUB_KELOMPOK_ID" value="{CARI_SUB_KELOMPOK_ID}" id="POP_UP_SUB_KELOMPOK_ID"/>
+            <input type="text" name="CARI_SUB_KELOMPOK_NAME" value="{CARI_SUB_KELOMPOK_NAME}" size="30" id="POP_UP_SUB_KELOMPOK_NAME" readonly />
+            <input type='button' value='...' onClick='javascript: pop_up(3,"{URL_POP_UP_SUB_KELOMPOK}")'>
+         </td>
+      </tr>
+      <tr>              
+         <th width="30%"><!-- patTemplate:gtfwgetconfig config="language" name="nama_barang" / --></th>
+         <td><input type="text" name="CARI_NAMA_BARANG" value="{CARI_NAMA_BARANG}" size="30" /></td>
+      </tr>
+      <tr style="display:none;">              
+         <th width="30%">Jenis Barang</th>
+         <td><!-- patTemplate:gtfwrendermodule module="combobox" submodule="combobox" action="view" name="cari_jenis_barang"  / --></td>
+      </tr>
+      <tr>
+         <th>&nbsp;</th>
+         <td>
+            <input type="submit" name="btncari" value=" Tampilkan &raquo;" class="buttonSubmit"/>
+         </td>
+      </tr>
+   </table>
+</form>
+
+<div class="pageBar">
+<!-- patTemplate:gtfwrendermodule module="paging" submodule="paging" action="view" name="paging_top"  / -->
+</div>
+<table class="table-common" width="100%">
+   <tr>
+      <th width="5px"><!-- patTemplate:gtfwgetconfig config="language" name="no" / --></th>
+      <th width="5px"><!-- patTemplate:gtfwgetconfig config="language" name="kode" / --></th>
+      <th><!-- patTemplate:gtfwgetconfig config="language" name="nama" / --></th>
+      <th width="32px"><!-- patTemplate:gtfwgetconfig config="language" name="aksi" / --></th>
+   </tr>
+   <!-- patTemplate:tmpl name="data" type="condition" conditionvar="DATA_EMPTY" -->
+      <!-- patTemplate:sub condition="YES" -->
+      <tr><td colspan="4" align="center"><em>-- <!-- patTemplate:gtfwgetconfig config="language" name="data_kosong" / --> --</em></td></tr>
+      <!-- /patTemplate:sub -->
+      <!-- patTemplate:sub condition="NO" -->
+         <!-- patTemplate:tmpl name="data_item" -->
+         <tr class="{DATA_CLASS_NAME}">
+            <td align="center">{DATA_NUMBER}</td>
+            <td align="left">{DATA_KODE}</td>
+            <td>{DATA_NAMA}</td>
+            <td class="links"><!-- patTemplate:tmpl name="icon_pilih" visibility="hidden"  -->
+               <a title="Pilih"><img src="images/button-check.gif" alt="pilih" onclick="javascript:select_this('{DATA_KODE}', '{DATA_ID}', '{DATA_NAMA}', '{DATA_SATUAN}')"/></a> <!-- /patTemplate:tmpl -->
+            </td>
+         </tr>
+         <!-- /patTemplate:tmpl -->
+      <!-- /patTemplate:sub -->
+   <!-- /patTemplate:tmpl -->
+</table>
+<script language='javascript'>
+function pop_up(number, url)
+{
+        if (number == 1) query = 'golongan=' + document.getElementById('POP_UP_GOLONGAN').value;
+   else if (number == 2) query = 'bidang='   + document.getElementById('POP_UP_BIDANG_ID').value;
+   else                  query = 'kelompok=' + document.getElementById('POP_UP_KELOMPOK_ID').value;
+   
+   winpopup = window.open(url + '&' + query, '_blank', 'width=600,height=500,resizable=yes,scrollbars=yes,right=0;center');
+   winpopup.focus();
+   
+}
+
+function select_this(id1, id2, id3, id4)
+{
+   
+   if(document.getElementById('kode_barang')!==null){
+   	document.getElementById('kode_barang').value = id1;
+	}
+	if(document.getElementById('kode_barang_hidden')!==null){
+   	document.getElementById('kode_barang_hidden').value = id1;
+	}
+	if(document.getElementById('kode_barang_id')!==null){
+   	document.getElementById('kode_barang_id').value = id2;
+	}
+	if(document.getElementById('nama_barang')!==null){
+   	document.getElementById('nama_barang').value = id3;
+	}
+   if(document.getElementById('label_barang')!==null){
+   	document.getElementById('label_barang').value = id3;
+	}
+	popupClose();
+	addDetail();
+   focus();
+   
+}
+</script>
+<!-- /patTemplate:tmpl -->

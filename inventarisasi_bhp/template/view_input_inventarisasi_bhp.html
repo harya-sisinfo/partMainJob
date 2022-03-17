@@ -1,0 +1,54 @@
+<!-- patTemplate:tmpl name="content" -->
+<h1>Inventarisasi BHP</h1><br/>
+
+<!-- patTemplate:tmpl name="warning_box" visibility="hidden" -->
+<div class="notebox-alert">
+   {ISI_PESAN}
+</div>
+<br/>
+<!-- /patTemplate:tmpl -->
+
+<form method="POST" action="{URL_ACTION}" class="xhr_form std_form" id="frmInput" name="frmInput" >
+   <table width="100%" class="table-edit">
+      <tr class="subhead">
+         <th colspan="2">{TITLE} Inventarisasi BHP</th>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="kode_barang" / --> *</th>
+         <td>
+         	<input type='text' name='kode_barang' value='{KODE_BARANG}' id='kode_barang' size="30" readonly />
+            <input type='button' value='...' onclick='javascript: show_pop_up("{URL_POP_UP_KD_BARANG}")'/>
+				<input type='hidden' name='barang_id' value='{BARANG_ID}' id='kode_barang_id'/>
+            <input type='hidden' name='kode_barang' value='{KODE_BARANG}' id='kode_barang_hidden'/>
+          </td>
+      </tr>
+      <tr>
+         <th><!-- patTemplate:gtfwgetconfig config="language" name="nama_barang" / --> *</th>
+         <td><input type='text' name='nama_barang' value='{NAMA_BARANG}' id='nama_barang' size="30" readonly /></td>
+      </tr>
+      <tr>
+         <th>Detil Barang *</th>
+         <td>
+				<input type='text' name='detil_barang' value='{DETIL_BARANG}' size="40"/>
+         </td>
+      </tr>
+      <tr>
+         <th>Aktif</th>
+         <td><input type="checkbox" name="stat" value="Y" {CHECKED} /></td>
+      </tr>
+      <tr class="buttons">
+      	<th></th>
+      	<td>
+				<input type="submit" name="simpan" value="Simpan" class="buttonSubmit" />
+				<a href="{URL_BACK}" class="xhr dest_subcontent-element"><input type="button" name="batal" value="Batal" class="buttonSubmit" /></a>
+			</td>
+      </tr>
+	</table>
+</form>
+
+<script>
+function show_pop_up (url){
+	winpopup = showPopup(url, "Kode Barang", 700, 550);
+}
+</script>
+<!-- /patTemplate:tmpl -->
